@@ -9,3 +9,5 @@ class User(models.Model):
     gender = models.CharField(max_length=1)
     dob = models.DateTimeField()
 
+
+
