@@ -181,3 +181,5 @@ class Taxi_Booking(models.Model):
 
     def __str__(self):
         return self.trip_id+self.trans_id
+        
+#Hello how are you
