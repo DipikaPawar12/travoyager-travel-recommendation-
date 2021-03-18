@@ -5,5 +5,4 @@ def index(request):
     return render(request, 'index.html')
 
 def userRegister(request):
-
     return render(request, 'userRegister.html')
