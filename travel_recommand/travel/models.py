@@ -1,6 +1,7 @@
 from django.db import models
 from enum import Enum
-# Create your models here.
+# Create your models here....
+# Comment
 class User(models.Model):
     username = models.CharField(max_length=200,unique=True)
     password = models.CharField(max_length=15)
