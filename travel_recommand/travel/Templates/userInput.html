@@ -4,40 +4,17 @@
  
 
 <form method="GET">
-    <label for="location">Where to go:</label>
-    <input type="text" name="location" required>
+    <label for="source">Where are you:</label>
+    <input type="text" name="source" required />
     <br>
-    <label for="starting_date">Starting Date:</label>
-    <input type="date" id="starting_date" name="starting_date" required>
+    <label for="dest_name">Where to go:</label>
+    <input type="text" name="dest_name" required /> 
     <br>
-    <label for="ending_date">Ending Date:</label>
-    <input type="date" id="ending_date" name="ending_date" required>
+    <input type="submit" value="Proceed" >
     <br>
-    <label for="no_of_adult">No. of Adult:</label>
-    <input type="number" id="no_of_adult" name="no_of_adult" min="1">
-    <br>
-    <label for="no_of_child">No. of Child:</label>
-    <input type="number" id="no_of_child" name="no_of_child" min="0">
-    <br>
-    <label for="budget">Budget:</label>
-    <select name="budget" id="budget">
-    <option value="low">Low</option>
-    <option value="moderate">Moderate</option>
-    <option value="high">High</option>
-    </select>
-    <br>
-    <label for="visit_place_type">Place Type:</label>
-    <select name="visit_place_type" id="visit_place_type">
-    <option value="beach">Beach</option>
-    <option value="shopping">Shopping</option>
-    <option value="historical">Historical</option>
-    <option value="tracking">Tracking</option>
-    <option value="religious">Religious</option>
-    <option value="relaxing">Relaxing</option>
-    </select>
-    <br>
-    <input type="submit" value="Proceed">
-
+    <button>
+        <a href="split_userInput">Proceed to next page</a>
+    </button>
 </form>
 
 {% endblock %}
