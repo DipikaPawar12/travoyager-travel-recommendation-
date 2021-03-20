@@ -2,5 +2,27 @@
 {% block body %}
 <h6>Now</h6>
  Register here
-
+ 
+ <form method="POST" enctype="multipart/form-data">
+    <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="{{username}}" minlength="2" maxlength="50" autocomplete="off" required />
+    <br>
+    <input type="password" class="form-control" placeholder="Password" name="password" minlength="4" maxlength="20" required />
+    <br>
+    <input type="password" class="form-control" placeholder="Confirm Password" name="cpassword" minlength="4" maxlength="20" required />
+    <br>
+    <input type="email" class="form-control" placeholder="Mail Id" id="mail" name="mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlenght="320" required />
+    <br>                 
+    <input type="number" class="form-control" placeholder="Contact Number" id="contact" name="contact" value="{{contact}}" pattern="[0-9]{10}" required />
+    <br>
+    <input type="text" class="form-control" placeholder="Gender (M/F/O)" id="gender" name="gender" value="{{gender}}" maxlength="1"required />
+    <br>
+    <input type="date" id="dob" name="dob" required>
+    <br>
+    <div class="form-group">
+        <input type="submit" value="Sign Up" class="btn float-right login_btn" id="lg_bt" />
+    </div>
+ </form>
+ <div class="d-flex justify-content-center links">
+    Already Have an Account?<a href="userLogin">Sign In</a>
+  </div>
 {% endblock %}

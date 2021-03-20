@@ -6,3 +6,9 @@ def index(request):
 
 def userRegister(request):
     return render(request, 'userRegister.html')
+    
+def userInput(request):
+    return render(request, 'userInput.html')
+
+def userLogin(request):
+    return render(request, 'userLogin.html')

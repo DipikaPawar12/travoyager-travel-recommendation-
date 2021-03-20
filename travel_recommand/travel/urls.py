@@ -4,4 +4,7 @@ from .views import *
 urlpatterns = [
     url(r'^$', index, name='index'),
     url(r'^userRegister$', userRegister, name='userRegister'),
+    url(r'^userInput$', userInput, name='userInput'),
+    url(r'^userLogin$', userLogin, name='userLogin'),
+
 ]
