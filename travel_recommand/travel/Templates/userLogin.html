@@ -1,11 +1,10 @@
 
 {% extends 'base.html' %}
 {% block body %}
-<h6>Now</h6>
- Log in  here
- 
+<h2>{{ errors }}</h2> 
  <form method="POST">
-    <input type="text" class="form-control" placeholder="username" name="username" autocomplete="off" required />
+   {% csrf_token %}
+    <input type="text" class="form-control" placeholder="username" name="username" value="{{username}}" autocomplete="off" required />
     <br>
     <input type="password" class="form-control" placeholder="password" name="password" />
     <br>
