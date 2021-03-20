@@ -1,6 +1,7 @@
 from django.db import models
 from enum import Enum
-# Create your models here.
+# Create your models here....
+# Comment
 class User(models.Model):
     username = models.CharField(max_length=200,unique=True)
     password = models.CharField(max_length=15)
@@ -10,7 +11,7 @@ class User(models.Model):
     dob = models.DateField()
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
  
 class User_Account(models.Model):
@@ -19,7 +20,7 @@ class User_Account(models.Model):
     acount_balance=models.FloatField()
 
     def __str__(self):
-        return self.account_id
+        return str(self.account_id)
 
 class Destination(models.Model):
     dest_id=models.IntegerField(primary_key=True,auto_created=True)
@@ -29,7 +30,7 @@ class Destination(models.Model):
     humidity=models.FloatField()
 
     def __str__(self):
-        return self.dest_id     
+        return str(self.dest_id)     
 
 class placeTypeChoice(Enum):   # A subclass of Enum
     beach = "beach"
@@ -52,7 +53,7 @@ class Place(models.Model):
     type_of_Place=models.CharField(max_length=15, choices=[(tag, tag.value) for tag in placeTypeChoice] ) #enum, beach, shopping, historical, tracking, religious, relexing
 
     def __str__(self):
-        return self.place_id          
+        return str(self.place_id)          
 
 class Place_Review(models.Model):
     place_id=models.ForeignKey(Place,default=1,on_delete=models.SET_DEFAULT)
@@ -64,7 +65,7 @@ class Place_Review(models.Model):
         unique_together = (("user_id", "place_id"))
 
     def __str__(self):
-        return self.place_id+self.user_id
+        return str(self.place_id)+' '+str(self.user_id)
 
 class Place_Image(models.Model):
     image_id=models.IntegerField()
@@ -74,7 +75,7 @@ class Place_Image(models.Model):
     class Meta:
         unique_together = (("image_id", "place_id"))
     def __str__(self):
-        return self.image_id+self.place_id
+        return str(self.image_id)
 
 class User_Input(models.Model):
     trip_id=models.IntegerField(primary_key=True,auto_created=True)
@@ -90,7 +91,7 @@ class User_Input(models.Model):
     trans_to_choose=models.CharField(max_length=10)           # own car, texi, bus
 
     def __str__(self):
-        return self.trip_id
+        return str(self.trip_id)
 
 
 class Itinerary(models.Model):
@@ -103,7 +104,7 @@ class Itinerary(models.Model):
         unique_together = (("place_id", "trip_id"))
 
     def __str__(self):
-        return self.trip_id+self.place_id
+        return str(self.trip_id)
 
         
 class Hotel(models.Model):
@@ -122,7 +123,7 @@ class Hotel(models.Model):
     type_of_hotel=models.CharField(max_length=200)                      # choice : luxury, first class,star of hotel, frontend side handling
 
     def __str__(self):
-        return self.hotel_id
+        return str(self.hotel_id)
 
 class Hotel_Booking(models.Model):
     trip_id=models.ForeignKey(User_Input,default=1,on_delete=models.SET_DEFAULT)
@@ -135,7 +136,7 @@ class Hotel_Booking(models.Model):
         unique_together = (("hotel_id", "trip_id"))
 
     def __str__(self):
-        return self.trip_id+self.hotel_id
+        return str(self.trip_id)+' '+str(self.hotel_id)
 
 
 
@@ -151,7 +152,7 @@ class Transport(models.Model):
     charge_per_person=models.FloatField()
 
     def __str__(self):
-        return self.trans_id
+        return str(self.trans_id)
 
 class Transport_Booking(models.Model):
     trans_id=models.ForeignKey(Transport,default=1,on_delete=models.SET_DEFAULT)
@@ -168,7 +169,7 @@ class Transport_Booking(models.Model):
         unique_together = (("trans_id", "trip_id"))
 
     def __str__(self):
-        return self.trip_id+self.trans_id
+        return str(self.trip_id)+' '+str(self.trans_id)
 
 class Taxi_Booking(models.Model):
     trans_id=models.ForeignKey(Transport,default=1,on_delete=models.SET_DEFAULT)
@@ -180,6 +181,6 @@ class Taxi_Booking(models.Model):
         unique_together = (("trans_id", "trip_id"))
 
     def __str__(self):
-        return self.trip_id+self.trans_id
+        return str(self.trip_id)+' '+str(self.trans_id)
         
 #Hello how are you
