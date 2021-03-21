@@ -3,8 +3,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
-
+#comment
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'travel_recommand.settings')
     try:
