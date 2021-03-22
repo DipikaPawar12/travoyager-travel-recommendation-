@@ -17,14 +17,14 @@ class User(models.Model):
 class User_Account(models.Model):
     account_id=models.IntegerField(primary_key=True,auto_created=True)
     user_id=models.ForeignKey(User,default=1,on_delete=models.SET_DEFAULT)
-    acount_balance=models.FloatField()
+    account_balance=models.FloatField()
 
     def __str__(self):
         return str(self.account_id)
 
 class Destination(models.Model):
     dest_id=models.IntegerField(primary_key=True,auto_created=True)
-    dest_name=models.CharField(max_length=200)
+    dest_name=models.CharField(max_length=200,unique=True)
     state=models.CharField(max_length=200)
     temprature=models.FloatField()
     humidity=models.FloatField()
@@ -81,7 +81,7 @@ class User_Input(models.Model):
     trip_id=models.IntegerField(primary_key=True,auto_created=True)
     user_id=models.ForeignKey(User,default=1,on_delete=models.SET_DEFAULT)    
     dest_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT)    
-    location=models.CharField(max_length=100)
+    #source_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT)    
     starting_date=models.DateField()
     ending_date=models.DateField()
     no_of_adult =models.IntegerField()              
