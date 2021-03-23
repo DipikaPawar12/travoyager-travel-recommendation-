@@ -1,20 +1,32 @@
 {% extends 'base.html' %}
 {% block body %}
-<h6>Now,Input here</h6>
- 
+<h6>Tell us about youself</h6>
+<h2>{{ error }}</h2> 
 
-<form method="GET">
+<form method="POST">
+    {% csrf_token %}
     <label for="source">Where are you:</label>
-    <input type="text" name="source" required />
+    <select class="form-control" id= "src_name" name="src_name" >
+        {% for obj in dest_available_obj%}      
+        <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
+        {% endfor %}
+    </select>
+
     <br>
     <label for="dest_name">Where to go:</label>
-    <input type="text" name="dest_name" required /> 
+    <select class="form-control" id= "dest_name" name="dest_name" >
+        {% for obj in dest_available_obj%}      
+        <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
+        {% endfor %}
+    </select> 
     <br>
-    <input type="submit" value="Proceed" >
-    <br>
-    <button>
-        <a href="split_userInput">Proceed to next page</a>
-    </button>
+    <div class="form-group">
+        <input type="submit" value="Proceed" class="btn float-right login_btn" id="lg_bt" />
+    </div>
+ 
+  
+    
 </form>
+
 
 {% endblock %}
