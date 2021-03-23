@@ -80,8 +80,8 @@ class Place_Image(models.Model):
 class User_Input(models.Model):
     trip_id=models.IntegerField(primary_key=True,auto_created=True)
     user_id=models.ForeignKey(User,default=1,on_delete=models.SET_DEFAULT)    
-    dest_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT)    
-    #source_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT)    
+    dest_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT, related_name='dest')    
+    source_id=models.ForeignKey(Destination,default=2,on_delete=models.SET_DEFAULT, related_name='source')    
     starting_date=models.DateField()
     ending_date=models.DateField()
     no_of_adult =models.IntegerField()              
