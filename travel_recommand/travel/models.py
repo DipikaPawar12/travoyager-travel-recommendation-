@@ -8,5 +8,3 @@ class User(models.Model):
     contact = models.IntegerField()
     gender = models.CharField(max_length=1)
     dob = models.DateTimeField()
-
-
