@@ -70,7 +70,7 @@ class Place_Review(models.Model):
 class Place_Image(models.Model):
     image_id=models.IntegerField()
     place_id=models.ForeignKey(Place,default=1,on_delete=models.SET_DEFAULT)
-    image_of_place=models.ImageField(height_field=500,width_field=500)
+    image_of_place=models.ImageField()
 
     class Meta:
         unique_together = (("image_id", "place_id"))
