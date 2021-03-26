@@ -50,7 +50,7 @@ class Place(models.Model):
     extra_charge=models.FloatField()
     time_durationForVisit=models.TimeField()
     rate_place=models.FloatField()
-    type_of_Place=models.CharField(max_length=15, choices=[(tag, tag.value) for tag in placeTypeChoice] ) #enum, beach, shopping, historical, tracking, religious, relexing
+    type_of_Place=models.CharField(max_length=15)  #, choices=[(tag, tag.value) for tag in placeTypeChoice] ) #enum, beach, shopping, historical, tracking, religious, relexing
 
     def __str__(self):
         return str(self.place_id)          
