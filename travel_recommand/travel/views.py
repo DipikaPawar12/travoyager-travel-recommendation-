@@ -173,20 +173,82 @@ def placeFetch(request):
         try:
             user_obj = User.objects.get(id=userId_glob)
             user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+            
         except:
             user_in_obj=None
+        
         if user_in_obj!=None:
+            #dest_obj = Destination.objects.get(dest_id = user_in_obj.dest_id)
             choice = user_in_obj.visit_place_type
             choice=choice.split(',')
-            print(choice)
-            place_obj = Place.objects.filter(type_of_Place__in = choice).all().order_by('-extra_charge','rate_place')
+            place_obj = Place.objects.filter(type_of_Place__in = choice, dest_id=user_in_obj.dest_id).all().order_by('-extra_charge','rate_place')
             print(len(place_obj))
             
-            context={
-                'place_obj': place_obj
-            }
+            delta = user_in_obj.ending_date - user_in_obj.starting_date
+            no_of_day_visit = delta.days+1
 
-        return render(request,'placeFetch.html', context)
+            given_date = user_in_obj.starting_date
+            i=0
+            k=0
+            while i<(3*no_of_day_visit):
+                if 3*no_of_day_visit-i<3:
+                    while(k<len(place_obj)):
+                        if(place_obj[k].time_durationForVisit.hour <4):
+                            place_obj_current = place_obj[k]
+                            break
+                        k+=1
+                else:
+                    place_obj_current = place_obj[k]
+                if(i%3==0 and i!=0):
+                    given_date+= timedelta(days=1)
+                if(i%3==0):
+                    t1 =  datetime.strptime('09:30:00', '%H:%M:%S')
+                    t2 =  datetime.strptime('12:30:00', '%H:%M:%S')
+                elif(i%3==1):
+                    t1 =  datetime.strptime('02:30:00', '%H:%M:%S')
+                    t2 =  datetime.strptime('05:30:00', '%H:%M:%S')
+                elif(i%3==2):
+                    t1 =  datetime.strptime('05:30:00', '%H:%M:%S')
+                    t2 =  datetime.strptime('08:30:00', '%H:%M:%S')
+                    
+
+                slot1 = datetime.combine(given_date, datetime.time(t1))
+                slot2 = datetime.combine(given_date, datetime.time(t2))
+                print(slot1,' ',slot2)
+                itinerary_gen = Itinerary(trip_id = user_in_obj, place_id = place_obj_current,arrival_DnT = slot1, departure_DnT = slot2)
+                itinerary_gen.save()
+                if(i==3*no_of_day_visit-1):
+                    break
+                if(place_obj_current.time_durationForVisit.hour>3):
+                    if(i%3==0):
+                        slot1 = slot1.replace(hour=(2))
+                        slot2 = slot2.replace(hour=(5))
+                    elif(i%3==1):
+                        slot1 = slot1.replace(hour=(5))
+                        slot2 = slot2.replace(hour=(8))
+                    elif(i%3==2):
+                        slot1 = slot1.replace(hour=(9))
+                        slot2 = slot2.replace(hour=(12))
+                        slot1 += timedelta(days=1)
+                        slot2 += timedelta(days=1)
+                    i+=1
+
+                    given_date = (slot2.date())
+
+                    print(slot1,' ',slot2)
+                    print(i)
+                    itinerary_gen = Itinerary(trip_id = user_in_obj, place_id = place_obj_current,arrival_DnT = slot1, departure_DnT = slot2)
+                    itinerary_gen.save()
+                i+=1
+            itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+            context={
+                'place_obj': place_obj,
+                'itinary_gen': itinerary_gen
+            }
+            return render(request,'placeFetch.html', context)
+        else:
+            return HttpResponseRedirect('/userLogin')
     else:
         return HttpResponseRedirect('/userLogin')
+       
             
