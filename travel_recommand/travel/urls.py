@@ -8,5 +8,6 @@ urlpatterns = [
     url(r'^userLogin$', userLogin, name='userLogin'),
     url(r'^split_userInput$', split_userInput, name='split_userInput'),
     url(r'^placeFetch$', placeFetch, name='placeFetch'),
+    url(r'^temp$', temp, name='temp'),
 
 ]

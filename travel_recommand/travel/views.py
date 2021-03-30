@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.db.models import Q
 
 # Create your views here.
@@ -181,7 +181,7 @@ def placeFetch(request):
             #dest_obj = Destination.objects.get(dest_id = user_in_obj.dest_id)
             choice = user_in_obj.visit_place_type
             choice=choice.split(',')
-            place_obj = Place.objects.filter(type_of_Place__in = choice, dest_id=user_in_obj.dest_id).all().order_by('-extra_charge','rate_place')
+            place_obj = Place.objects.filter(type_of_Place__in = choice, dest_id=user_in_obj.dest_id).all().order_by('-extra_charge','rate_place','time_durationForVisit')
             print(len(place_obj))
             
             delta = user_in_obj.ending_date - user_in_obj.starting_date
@@ -191,14 +191,9 @@ def placeFetch(request):
             i=0
             k=0
             while i<(3*no_of_day_visit):
-                if 3*no_of_day_visit-i<3:
-                    while(k<len(place_obj)):
-                        if(place_obj[k].time_durationForVisit.hour <4):
-                            place_obj_current = place_obj[k]
-                            break
-                        k+=1
-                else:
-                    place_obj_current = place_obj[k]
+                place_obj_current = place_obj[k]
+                k+=1
+
                 if(i%3==0 and i!=0):
                     given_date+= timedelta(days=1)
                 if(i%3==0):
@@ -217,7 +212,7 @@ def placeFetch(request):
                 print(slot1,' ',slot2)
                 itinerary_gen = Itinerary(trip_id = user_in_obj, place_id = place_obj_current,arrival_DnT = slot1, departure_DnT = slot2)
                 itinerary_gen.save()
-                if(i==3*no_of_day_visit-1):
+                if(k>=len(place_obj) or (i==3*no_of_day_visit-1)):
                     break
                 if(place_obj_current.time_durationForVisit.hour>3):
                     if(i%3==0):
@@ -251,4 +246,20 @@ def placeFetch(request):
     else:
         return HttpResponseRedirect('/userLogin')
        
-            
+def temp(request):
+    user_obj = User.objects.get(id=userId_glob)
+    user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+    itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+    image_obj = Place_Image.objects.all()
+    img_list=[]
+    for obj in itinary_gen:
+        for img in image_obj:
+          
+            if obj.place_id.place_id == img.place_id.place_id:
+                img_list.append(img.image_of_place)
+                break
+    common = zip(itinary_gen, img_list)
+    context={
+        'itinary_gen': common
+    }
+    return render(request,'temp.html', context)

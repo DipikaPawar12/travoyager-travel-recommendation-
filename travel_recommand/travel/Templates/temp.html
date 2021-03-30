@@ -1,0 +1,9 @@
+{{ itinary_gen }}<br>
+
+{% for obj, img in itinary_gen %}
+
+
+    {{obj.arrival_DnT}}<br>
+    <img src={{img}}>
+    {{obj.place_id.name_place}}<br>
+{% endfor %}
