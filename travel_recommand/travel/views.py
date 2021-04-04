@@ -200,11 +200,11 @@ def placeFetch(request):
                     t1 =  datetime.strptime('09:30:00', '%H:%M:%S')
                     t2 =  datetime.strptime('12:30:00', '%H:%M:%S')
                 elif(i%3==1):
-                    t1 =  datetime.strptime('02:30:00', '%H:%M:%S')
-                    t2 =  datetime.strptime('05:30:00', '%H:%M:%S')
+                    t1 =  datetime.strptime('14:30:00', '%H:%M:%S')
+                    t2 =  datetime.strptime('17:30:00', '%H:%M:%S')
                 elif(i%3==2):
-                    t1 =  datetime.strptime('05:30:00', '%H:%M:%S')
-                    t2 =  datetime.strptime('08:30:00', '%H:%M:%S')
+                    t1 =  datetime.strptime('18:30:00', '%H:%M:%S')
+                    t2 =  datetime.strptime('21:30:00', '%H:%M:%S')
                     
 
                 slot1 = datetime.combine(given_date, datetime.time(t1))
@@ -216,11 +216,11 @@ def placeFetch(request):
                     break
                 if(place_obj_current.time_durationForVisit.hour>3):
                     if(i%3==0):
-                        slot1 = slot1.replace(hour=(2))
-                        slot2 = slot2.replace(hour=(5))
+                        slot1 = slot1.replace(hour=(14))
+                        slot2 = slot2.replace(hour=(17))
                     elif(i%3==1):
-                        slot1 = slot1.replace(hour=(5))
-                        slot2 = slot2.replace(hour=(8))
+                        slot1 = slot1.replace(hour=(18))
+                        slot2 = slot2.replace(hour=(21))
                     elif(i%3==2):
                         slot1 = slot1.replace(hour=(9))
                         slot2 = slot2.replace(hour=(12))
@@ -235,21 +235,59 @@ def placeFetch(request):
                     itinerary_gen = Itinerary(trip_id = user_in_obj, place_id = place_obj_current,arrival_DnT = slot1, departure_DnT = slot2)
                     itinerary_gen.save()
                 i+=1
-            itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+            #itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
             context={
-                'place_obj': place_obj,
                 'itinary_gen': itinerary_gen
             }
-            return render(request,'placeFetch.html', context)
+            return HttpResponseRedirect('/temp')
+
         else:
             return HttpResponseRedirect('/userLogin')
     else:
         return HttpResponseRedirect('/userLogin')
-       
+
+
+def itinaryShow(curr_slot, itinary_gen, user_in_obj,  next_slot, current_date):
+    dictionary={}
+    t = datetime.strptime(curr_slot, '%H:%M:%S')
+    curr_slot = datetime.combine(current_date, datetime.time(t))
+    t = datetime.strptime(next_slot, '%H:%M:%S')
+    curr_slot_end = datetime.combine(current_date, datetime.time(t))
+
+    try:
+        check = Itinerary.objects.filter(trip_id=user_in_obj, arrival_DnT=curr_slot).all()
+    except:
+        pass
+    dictionary['trip_id'] = user_in_obj
+    dictionary['arrival_DnT']= curr_slot
+    dictionary['departure_DnT'] = curr_slot_end
+    if len(check)>0:
+        dictionary['arrival_DnT']= check[0].arrival_DnT
+        dictionary['departure_DnT'] = check[0].departure_DnT
+        dictionary['place_id'] = check[0].place_id
+        return (dictionary)
+
+    dictionary['place_id'] = None
+    return (dictionary)
+
 def temp(request):
     user_obj = User.objects.get(id=userId_glob)
     user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+
+    delta = user_in_obj.ending_date - user_in_obj.starting_date
+    no_of_day_visit = delta.days+1
+    current_date = user_in_obj.starting_date
+
     itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+    itinary = []
+    for i in range(no_of_day_visit):
+        itinary.append(itinaryShow('09:30:00', itinary_gen, user_in_obj, '12:30:00', current_date))
+        itinary.append(itinaryShow('14:30:00', itinary_gen, user_in_obj, '17:30:00', current_date))
+        itinary.append(itinaryShow('18:30:00', itinary_gen, user_in_obj, '21:30:00', current_date))
+        current_date += timedelta(days=1)
+
+    
     image_obj = Place_Image.objects.all()
     img_list=[]
     for obj in itinary_gen:
@@ -259,7 +297,79 @@ def temp(request):
                 img_list.append(img.image_of_place)
                 break
     common = zip(itinary_gen, img_list)
+    
     context={
-        'itinary_gen': common
+        'itinary_gen': itinary,
+        'org_iti': itinary_gen
     }
     return render(request,'temp.html', context)
+
+def tempDelete(request, pk):
+    iti_obj = Itinerary.objects.get(id=pk).delete()
+
+    return HttpResponseRedirect('/temp')
+
+
+def addPlace(request, counter):
+    limit=""
+    user_obj = User.objects.get(id=userId_glob)
+    user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+    delta = user_in_obj.ending_date - user_in_obj.starting_date
+    no_of_day_visit = delta.days+1
+    current_date = user_in_obj.starting_date
+    
+    itinary_obj = Itinerary.objects.filter(trip_id=user_in_obj).all()
+    place =[]
+    for obj in itinary_obj:
+        place.append(obj.place_id.place_id)
+    place_obj = Place.objects.filter(~Q(place_id__in = place), dest_id=user_in_obj.dest_id).all()
+    if len(place_obj)==0:
+        limit="All places are covered still you wish!!!"
+        place_obj = Place.objects.filter(dest_id=user_in_obj.dest_id).all()
+    image_obj = Place_Image.objects.all()
+    img_list=[]
+    for obj in place_obj:
+        for img in image_obj:
+            if obj.place_id == img.place_id.place_id:
+                img_list.append(img.image_of_place)
+                break
+
+    common = zip(place_obj, img_list)
+    context={
+        'place_obj': common,
+        'location': counter,
+        'limit': limit
+    }
+    return render(request,'addPlace.html', context)
+
+def addPlaceEntry(request, pk, location):
+    location-=1
+    user_obj = User.objects.get(id=userId_glob)
+    user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+    current_date = user_in_obj.starting_date + timedelta(days=(int)(location/3))    
+    
+    if(location%3==0):
+        t1 =  datetime.strptime('09:30:00', '%H:%M:%S')
+        t2 =  datetime.strptime('12:30:00', '%H:%M:%S')
+    elif(location%3==1):
+        t1 =  datetime.strptime('14:30:00', '%H:%M:%S')
+        t2 =  datetime.strptime('17:30:00', '%H:%M:%S')
+    else:
+        t1 =  datetime.strptime('18:30:00', '%H:%M:%S')
+        t2 =  datetime.strptime('21:30:00', '%H:%M:%S')
+
+    slot1 = datetime.combine(current_date, datetime.time(t1))
+    slot2 = datetime.combine(current_date, datetime.time(t2))
+
+    place_obj = Place.objects.get(place_id = pk)
+    itinerary_gen = Itinerary(trip_id = user_in_obj, place_id = place_obj,arrival_DnT = slot1, departure_DnT = slot2)
+    itinerary_gen.save()
+  
+    return HttpResponseRedirect('/temp')
+
+def updatePlace(request, pk, counter):
+    iti_obj = Itinerary.objects.get(id=pk).delete()
+
+    return HttpResponseRedirect('/addPlace/'+str(counter))

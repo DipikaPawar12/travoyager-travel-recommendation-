@@ -98,7 +98,7 @@ class Itinerary(models.Model):
     departure_DnT=models.DateTimeField()
 
     class Meta:
-        unique_together = (("place_id", "trip_id","arrival_DnT"))
+        unique_together = (("trip_id","arrival_DnT"))
 
     def __str__(self):
         return str(self.trip_id)

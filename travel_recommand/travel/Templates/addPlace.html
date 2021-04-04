@@ -1,0 +1,13 @@
+<h1>{{limit}}</h1>
+{% for obj,img in place_obj %}
+    <img src={{img}}>
+    Name: {{obj.name_place}}, {{obj.dest_id.dest_name}}<br>
+    {{obj.rate_place}} stars<br>
+    Place Type: {{obj.type_of_Place}}<br>
+    Description: {{obj.desc_place}}<br>
+    Tour Charges: {{obj.extra_charge}}<br>
+    <button value="Add" class="btn float-right login_btn" id="lg_bt">
+        <a href="addPlaceEntry/{{obj.pk}}/{{location}}">Add</a>
+    </button>
+    <br><br><hr>
+{% endfor %}

@@ -1,9 +1,32 @@
-{{ itinary_gen }}<br>
+<br>
 
-{% for obj, img in itinary_gen %}
-
+{% for obj in itinary_gen %}
 
     {{obj.arrival_DnT}}<br>
-    <img src={{img}}>
-    {{obj.place_id.name_place}}<br>
+  
+    {% ifequal obj.place_id None %}
+
+            <button value="Add" class="btn float-right login_btn" id="lg_bt">
+                <a href="addPlace/{{forloop.counter}}">Add</a>
+            </button>
+    {% else %}
+        {{obj.place_id.name_place}}<br>
+        {{obj.place_id.rate_place}} Stars<br>
+        {% for item in org_iti %}
+      
+            {% if  item.trip_id == obj.trip_id and  item.arrival_DnT == obj.arrival_DnT %}
+                <img src={{imgg}}>
+                <button value="Update" class="btn float-right login_btn" id="lg_bt">
+                    <a href="updatePlace/{{item.pk}}/{{forloop.counter}}">Update</a>
+                </button>
+                <button value="Delete" class="btn float-right login_btn" id="lg_bt">
+                    <a href="tempDelete/{{item.pk}}">Delete</a>
+                </button>
+
+            {% endif %}
+
+        {% endfor %}
+    {% endifequal %}
+    
+    <br><br><hr>
 {% endfor %}
