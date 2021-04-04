@@ -1,73 +1,118 @@
 <html>
-    <head>
-        {% load static %}
-         <link rel="stylesheet" href="{% static '/css/style.css' %}">
-        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css'%}"> 
-        
 
-    <body>
-         <nav class="navbar navbar-expand navbar-dark bg-dark">
-            <a class="navbar-brand" href="/Signup">Your Trips</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
+  <head>
 
-             <a class="navbar-brand" href="/">Past Trips</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button> 
+    <style>
 
-            <a class="navbar-brand" href="/">FAQ</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            
-             <a class="na" href="/"></a>
-            <div class="collapse navbar-collapse" id="navbarsExample02">
-              <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/userLogin">Login <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/userInput">User Input</a>
-                </li>
-              </ul>
-              <form class="form-inline my-2 my-md-0">
-                <input class="form-control" type="text" placeholder="Search">
-              </form>
-            </div>
-        </nav> 
-        
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
-        <div class="container">
-            <h6>Tell us about youself</h6>
-<h2>{{ error }}</h2> 
+html {
+  height:100%;
+  background-image: linear-gradient(to right top, #8e44ad 0%, #3498db 100%);
+}
 
-<form method="POST">
-    {% csrf_token %}
-    <label for="source">Where are you:</label>
-    <select class="form-control" id= "src_name" name="src_name" >
-        {% for obj in dest_available_obj%}      
-        <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
-        {% endfor %}
-    </select>
+nav {
+  max-width: 960px;
+  mask-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #ffffff 25%, #ffffff 75%, rgba(255, 255, 255, 0) 100%);
+  margin: 0 auto;
+  padding: 0px 0;
+}
 
-    <br>
-    <label for="dest_name">Where to go:</label>
-    <select class="form-control" id= "dest_name" name="dest_name" >
-        {% for obj in dest_available_obj%}      
-        <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
-        {% endfor %}
-    </select> 
-    <br>
-    <div class="form-group">
-        <input type="submit" value="Proceed" class="btn float-right login_btn" id="lg_bt" />
-    </div>
- 
-  
+nav ul {
+  text-align: center;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 25%, rgba(255, 255, 255, 0.2) 75%, rgba(255, 255, 255, 0) 100%);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+nav ul li {
+  display: inline-block;
+}
+
+
+nav ul li a {
+  padding: 18px;
+  font-family: "Times New Roman";
+  text-transform:uppercase;
+  color: rgba(0, 35, 122, 0.5);
+  font-size: 18px;
+  text-decoration: none;
+  display: block;
+}
+
+nav ul li a:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1), inset 0 0 1px rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(0, 35, 122, 0.7);
+}
+
+img {
+  padding: 5px;
+  width: 50px;
+  height: 30px;
+  margin-left: 700px;
+}
+
+p{
+ width:5px;
+}
+
+
+    </style>
+<div>
+  <a href="https://www.qries.com/">
+    <img alt="Qries" src="./static/logo.png">
+    <p>TRAVOYAGER</p>
+  </a>
+</div>
+
+
+
+   <nav>
+    <ul>
+      <li>
+        <a href="#">Home</a>
+      </li>
+      <li>
+        <a href="#">About</a>
+      </li>
+      <li>
+        <a href="#">Services</a>
+      </li>
+      <li>
+        <a href="#">Contact</a>
+      </li>
+    </ul>
+  </nav>
+
+  </head>
+
+  <body>
+
+    <h6>Tell us about youself</h6>
+    <h2>{{ error }}</h2> 
     
-</form>
-                    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="source">Where are you:</label>
+        <select class="form-control" id= "src_name" name="src_name" >
+            {% for obj in dest_available_obj%}      
+            <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
+            {% endfor %}
+        </select>
+    
+        <br>
+        <label for="dest_name">Where to go:</label>
+        <select class="form-control" id= "dest_name" name="dest_name" >
+            {% for obj in dest_available_obj%}      
+            <option value={{ obj.dest_name }}>{{ obj.dest_name }}</option>
+            {% endfor %}
+        </select> 
+        <br>
+        <div class="form-group">
+            <input type="submit" value="Proceed" class="btn float-right login_btn" id="lg_bt" />
+        </div>    
+    </form>
 
-    </body>
+
+  </body>
 </html>
