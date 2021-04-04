@@ -1,52 +1,274 @@
 {% extends 'base.html' %}
-{% block body %} 
+{% block body %}
 
+<head>
+    <style>
+        form {
+            margin: 60px;
+            padding: 0;
+            /*make this 0  and relocate .place*/
+            font-family: sans-serif;
+            font-size: 18px;
+            justify-content: center;
+            background:transparent;
+
+        }
+        /* .sDate, .eDate, .budget, .transp, .adult, .child{
+            display: column;
+            padding-right:80px;
+           
+        }
+        .form-box{
+            width: 500px;
+            background: rgba(0,0, 0, 0.6);
+            margin: auto;  
+            color: #fff;
+            box-shadow: 0 0 20px 2px rgba(0 ,0, 0, 0.6);
+        }
+        label{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        input, select{
+            font-size: 20px;
+            padding: 5px 0;
+        }
+        #starting_date, #ending_date, #no_of_adult, #no_of_child, #budget, #trans_to_choose{
+            width: 170px;
+            height: 40px;
+        }
+        #no_of_adult{
+            margin-left: 13px;
+        }
+        #no_of_child{
+            margin-left: 6px;
+        }
+        #Bud{
+            padding: 0px;
+        }
+        
+        #beach, #historical, #relaxing, #tracking, #religious #shopping{
+            margin-top: 10px;
+            padding-left: 10px;
+            margin-left: 10px;
+        } */
+        div {
+            justify-content: center;
+        }
+
+        .sDate {
+            width: 319px;
+            height: 68px;
+            top: 127px;
+            left: 76px;
+            overflow: hidden;
+            margin-left: 120px;
+            border:none;
+           
+
+        }
+
+        .eDate {
+            width: 319px;
+            height: 68px;
+            top: 177px;
+            left: 76px;
+            margin-top: 10px;
+            overflow: hidden;
+            margin-left: 120px
+        }
+
+        .budget {
+            width: 319px;
+            height: 68px;
+            top: 227px;
+            left: 76px;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 119px
+        }
+
+        .adult {
+            width: 319px;
+            height: 68px;
+            top: 227px;
+            left: 76px;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 120px
+        }
+
+        .transp {
+            width: 312px;
+            height: 68px;
+            top: 227px;
+            left: 598px;
+            display: inline-block;
+            overflow: hidden;
+
+        }
+
+        .child {
+            width: 312px;
+            height: 68px;
+            top: 277px;
+            left: 598px;
+            display: inline-block;
+            overflow: hidden;
+
+
+        }
+
+        .place {
+            margin-top: 5px;
+            margin-left: 120px;
+
+        }
+
+        button {
+            margin-top: 70px;
+            width: 170px;
+            height: 40px;
+            font-size: 20px;
+            margin-left: 390px;
+            border-radius: 8px;
+            box-shadow: 2px 2px rgba(0, 0, 255, 0.486);
+        }
+
+        button:hover {
+            background-color: #ff9595;
+            color: rgb(0, 0, 0);
+        }
+
+        #no_of_child {
+            width: 165px;
+            margin-left: 15px;
+            height: 30px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+        }
+
+        #trans_to_choose {
+            width: 165px;
+            margin-left: 5px;
+            height: 30px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+        }
+
+        #starting_date {
+            width: 165px;
+            margin-left: 10px;
+            height: 30px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+            
+        }
+
+        #ending_date {
+            width: 165px;
+            margin-left: 15px;
+            height: 30px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+        }
+
+        #no_of_adult {
+            width: 165px;
+            height: 30px;
+            margin-left: 22px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+        }
+
+        #budget {
+            width: 165px;
+            height: 30px;
+            margin-left: 58px;
+            border:none;
+            outline:none;
+            border-bottom:2px solid rgb(0, 0, 0) ;
+        }
+
+        #beach {
+            margin-top: 15px;
+            margin-left: 20px;
+        }
+
+        #beach,
+        #shopping,
+        #tracking,
+        #historical,
+        #relaxing,
+        #religious {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<div class="fbox"></div>
 <form method="POST">
     {% csrf_token %}
-    <label for="starting_date">Starting Date:</label>
-    <input type="date" id="starting_date" name="starting_date" min={{ date }} required>
-    <br>
-    <label for="ending_date">Ending Date:</label>
-    <input type="date" id="ending_date" name="ending_date" min={{ date }} required>
-    <br>
-    <label for="no_of_adult">No. of Adult:</label>
-    <input type="number" id="no_of_adult" name="no_of_adult" min="0">
-    <br>
-    <label for="no_of_child">No. of Child:</label>
-    <input type="number" id="no_of_child" name="no_of_child" min="0">
-    <br>
-    <label for="budget">Budget:</label>
-    <select name="budget" id="budget">
-    <option value="low">Low</option>
-    <option value="moderate">Moderate</option>
-    <option value="high">High</option>
-    </select>
     <br>
 
-    <label for="visit_place_type">Place Type:</label>
-    <input type="checkbox" id="beach" name="beach" value="beach">
-    <label for="beach">Beach</label><br>
-    <input type="checkbox" id="shopping" name="shopping" value="shopping">
-    <label for="shopping">Shopping</label><br>
-    <input type="checkbox" id="historical" name="historical" value="historical">
-    <label for="historical">Historical</label><br>
-    <input type="checkbox" id="tracking" name="tracking" value="tracking">
-    <label for="tracking">Tracking</label><br>
-    <input type="checkbox" id="religious" name="religious" value="religious">
-    <label for="religious">Religious</label><br>
-    <input type="checkbox" id="relaxing" name="relaxing" value="relaxing">
-    <label for="relaxing">Relaxing</label><br>
+    <div class="sDate">
+        <label for="starting_date">Starting Date:</label>
+        <input type="date" id="starting_date" name="starting_date" min={{ date }} required>
+    </div>
+    <div class="eDate">
+        <label for="ending_date">Ending Date:</label>
+        <input type="date" id="ending_date" name="ending_date" min={{ date }} required>
+    </div><br>
+    <div class="adult">
+        <label for="no_of_adult">No. of Adult:</label>
+        <input type="number" id="no_of_adult" name="no_of_adult" min="1">
+    </div>
+    <div class="child">
+        <label for="no_of_child">No. of Child:</label>
+        <input type="number" id="no_of_child" name="no_of_child" min="0">
+    </div><br>
+    <div class="budget">
+        <label id="Bud" for="budget">Budget:</label>
+        <select name="budget" id="budget">
+            <option value="low">Low</option>
+            <option value="moderate">Moderate</option>
+            <option value="high">High</option>
+        </select>
+    </div>
 
-    <label for="trans_to_choose">Transport By:</label>
-    <select name="trans_to_choose" id="trans_to_choose">
-    <option value="own_car">By own Car</option>
-    <option value="car">Travel's Car</option>
-    <option value="bus">Travel's Bus</option>
-    </select>
-    <br>
-    <input type="submit" value="Proceed">
+    <div class="transp">
+        <label for="trans_to_choose">Transport By:</label>
+        <select name="trans_to_choose" id="trans_to_choose">
+            <option value="own_car">By own Car</option>
+            <option value="car">Travel's Car</option>
+            <option value="bus">Travel's Bus</option>
+        </select>
+    </div><br>
+    <div class="place">
+        <label id="plac" for="visit_place_type">Place Type:</label><br>
+        <input type="checkbox" id="beach" name="beach" value="beach">
+        <label for="beach">Beach</label>
+        <input type="checkbox" id="shopping" name="shopping" value="shopping">
+        <label for="shopping">Shopping</label>
+        <input type="checkbox" id="historical" name="historical" value="historical">
+        <label for="historical">Historical</label>
+        <input type="checkbox" id="tracking" name="tracking" value="tracking">
+        <label for="tracking">Tracking</label>
+        <input type="checkbox" id="religious" name="religious" value="religious">
+        <label for="religious">Religious</label>
+        <input type="checkbox" id="relaxing" name="relaxing" value="relaxing">
+        <label for="relaxing">Relaxing</label>
+    </div>
+    <div class="button">
+        <button type="submit">Proceed</button>
+    </div>
 
 </form>
-
+</div>
 
 {% endblock %}
