@@ -1,0 +1,151 @@
+form{
+    margin: 0;
+    padding: 0;  /*make this 0  and relocate .place*/
+    font-family: sans-serif;
+    font-size: 20px;
+    height: 100vh;
+    justify-content: center;
+  
+}
+/* .sDate, .eDate, .budget, .transp, .adult, .child{
+    display: column;
+    padding-right:80px;
+   
+}
+.form-box{
+    width: 500px;
+    background: rgba(0,0, 0, 0.6);
+    margin: auto;  
+    color: #fff;
+    box-shadow: 0 0 20px 2px rgba(0 ,0, 0, 0.6);
+}
+label{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+input, select{
+    font-size: 20px;
+    padding: 5px 0;
+}
+#starting_date, #ending_date, #no_of_adult, #no_of_child, #budget, #trans_to_choose{
+    width: 170px;
+    height: 40px;
+}
+#no_of_adult{
+    margin-left: 13px;
+}
+#no_of_child{
+    margin-left: 6px;
+}
+#Bud{
+    padding: 0px;
+}
+
+#beach, #historical, #relaxing, #tracking, #religious #shopping{
+    margin-top: 10px;
+    padding-left: 10px;
+    margin-left: 10px;
+} */
+div{
+     justify-content: center;
+}
+.sDate{
+    width: 319px;
+    height: 68px;
+    top: 127px;
+    left: 76px;
+
+    overflow: hidden;
+    margin-left: 120px
+
+}
+ .eDate{
+    width: 319px;
+    height: 68px;
+    top: 177px;
+    left: 76px;
+    margin-top: 10px;
+    overflow: hidden;
+    margin-left: 120px
+ }
+.budget{
+  width: 319px;
+  height: 68px;
+  top: 227px;
+  left: 76px;
+  display: inline-block;
+  overflow: hidden;
+  margin-left: 120px
+}
+.adult{
+    width: 319px;
+    height: 68px;
+    top: 227px;
+    left: 76px;
+    display: inline-block;
+    overflow: hidden;
+    margin-left: 120px
+}
+.transp{
+    width: 312px;
+    height: 68px;
+    top: 227px;
+    left: 598px;
+    display: inline-block;
+    overflow: hidden;
+    
+}
+.child{
+    width: 312px;
+    height: 68px;
+    top: 277px;
+    left: 598px;
+    display: inline-block;
+    overflow: hidden;
+    
+
+}
+.place{
+    margin-top: 5px;
+    margin-left: 120px;
+    
+}
+button{
+    margin-top: 70px ;
+    width: 170px;
+    height: 40px;
+    font-size: 20px;
+    margin-left: 390px;
+}
+#no_of_child{
+    margin-left: 15px ;
+    height: 30px;
+}
+#trans_to_choose{
+    width: 165px;
+    margin-left: 5px ;
+    height: 30px;
+}
+#starting_date{
+    width: 165px;
+    margin-left: 10px;
+    height: 30px;
+}
+#ending_date{
+    width: 165px;
+    margin-left: 15px;
+    height: 30px;
+}
+#no_of_adult{
+    height: 30px;
+    margin-left: 22px;
+}
+#budget{
+    width: 165px;
+    height: 30px;
+    margin-left: 62px;
+}
+#beach{
+    margin-top: 15px;
+    margin-left: 20px;
+}
