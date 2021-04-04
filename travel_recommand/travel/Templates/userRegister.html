@@ -1,32 +1,189 @@
-{% extends 'base.html' %}
-{% block body %}
 
- <h2>{{ errors }}</h2>
- <form method="POST" enctype="multipart/form-data">
-   {% csrf_token %}
-    <input type="text" class="form-control" placeholder="Username" id="username" name="username" value="{{username}}" minlength="2" maxlength="200" autocomplete="off" required />
-    <br>
-    <input type="password" class="form-control" placeholder="Password" name="password" minlength="8" maxlength="15" required />
-    <br>
-    <input type="password" class="form-control" placeholder="Confirm Password" name="cpassword" minlength="8" maxlength="15" required />
-    <br>
-    <input type="email" class="form-control" placeholder="Mail Id" id="mail" name="mail" value="{{mail}}"pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlenght="320" required />
-    <br>                 
-    <input type="number" class="form-control" placeholder="Contact Number" id="contact" name="contact" value="{{contact}}" pattern="[0-9]{10}" required />
-    <br>
-    <select class="form-control" id="gender" name="gender" value="{{gender}}" required>
-      <option value="Male">Male</option>
-      <option value="Female">Female</option>
-      <option value="Other">Other</option>
-    </select>
-        <br>
-    <input type="date" id="dob" name="dob" value="{{dob}}" required>
-    <br>
-    <div class="form-group">
-        <input type="submit" value="Sign Up" class="btn float-right login_btn" id="lg_bt" />
-    </div>
- </form>
- <div class="d-flex justify-content-center links">
-    Already Have an Account?<a href="userLogin">Sign In</a>
-  </div>
-{% endblock %}
+<html>
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Register | Travoyager</title>
+      <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <style>
+        *{
+    margin: 10;
+    padding: 0;
+    font-family: "Times New Roman", Times, serif;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    background-color: rgb(0, 0, 252,0.8);
+    background-image: url('');
+    background-size: cover;
+}
+.form-box{
+    position: relative;
+    top: -30px;
+    width: 500px;
+    background: rgba(0,0, 0, 0.6);
+    margin: auto;  
+    color: #fff;
+    box-shadow: 0 0 20px 2px rgba(0 ,0, 0, 0.6);
+}
+form{
+    margin-top: 10px;
+    text-align: center;
+}
+
+input{
+    display:block;
+    width: 350px;
+    height: 40px;
+    margin: auto;
+    border:none;
+    align-items: center;
+    outline:none;
+    padding: 25px 0;
+    font-size: 20px;
+    border-bottom:1px solid white ;
+    background:transparent;
+    color: white;
+
+}
+button{
+    position: relative;
+    left: 27px;
+    width: 350px;
+    height: 40px;
+    font-size: 20px;
+    background-color: black;
+    border: none;
+    color: white;
+    margin-top: 30px;
+
+}
+#hide1, #hide3{
+    display: none   ;
+} 
+#date{
+    color: white;
+}
+ .eye{
+  position:relative;
+    float: right;
+    top:-53px;
+    left:-55px;
+} 
+form h1{
+    margin-bottom: 30px;
+}
+::placeholder{
+    color: rgb(255, 255, 255);
+}
+
+.password-container1{
+    margin-left: 60px;
+}
+
+      </style>
+  </head>
+  <body>
+      <h2>{{ errors }}</h2>
+      <div class="form-box">
+          <form class="input-icons" method="POST" enctype="multipart/form-data">
+              <h1>Create Account</h1>
+              <div class="Uname">
+                  {% csrf_token %}
+                  <input type="text" class="form-control" id="Uname" placeholder="Enter your Username" name="username" value="{{username}}" minlength="2" maxlength="200" required>
+              </div>
+              <div class="email">
+                  {% csrf_token %}
+                  <input type="email" class="form-control" id="mail" name="mail" value="{{mail}}"pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" maxlength="320" placeholder="Enter your email" required>
+              </div>
+              <div class="date">
+                  {% csrf_token %}
+                  <!-- <input type="date" id="date" placeholder="Date of Birth" required> -->
+                  <input placeholder = "Date of Birth" class="form-control" type = "text" onfocus = "(this.type = 'date')"  id = "date" name="dob" value="{{dob}}" required>
+              </div>
+              <div class="list">
+                  {% csrf_token %}
+                  <input type="list" class="form-control" list="Gender" id="gender" name="gender" value="{{gender}}" placeholder="Gender" required>
+              <datalist id="Gender">
+                  <option>Male</option>
+                  <option>Female</option>
+                  <option>Other</option>
+              </datalist>
+              </div>
+              <div class="pnumber">
+                  {% csrf_token %}
+                  <input type="number" class="form-control" placeholder="Enter Phone Number" id="contact" name="contact" value="{{contact}}" pattern="[0-9]{10}" required>
+              </div>    
+              <div class="password-container">
+                  {% csrf_token %}
+              <input type="password" class="form-control" id="password1" placeholder="Enter Password" name="password" minlength="8" maxlength="15" required>
+              <span class="eye" id="pe" onclick="eyefun()">
+                  <i id="hide1" class="fa fa-eye"></i>
+                  <i id="hide2" class="fa fa-eye-slash"></i>
+              </span>
+             </div>
+              <div class="password-container1">
+                  {% csrf_token %}
+              <input type="password" class="form-control" id="password2" placeholder=" Enter Confirm Password" name="cpassword" minlength="8" maxlength="15" required>
+             <span class="eye" id="pe1" onclick="eyefun1()">
+                  <i id="hide3" class="fa fa-eye"></i>
+                  <i id="hide4" class="fa fa-eye-slash"></i>
+              </span>
+              </div>
+              <div class="bt">
+                  <button type="submit">Sign Up</button>
+              </div>
+              <br>
+              <div class="login" >
+                  <p>Already have an account? <a href="/userLogin">Login</a></p>
+              </div>
+               <script>
+                  function eyefun(){
+                      var x = document.getElementById("password1")
+                      var y = document.getElementById("hide1")
+                      var z = document.getElementById("hide2")
+  
+                      if(x.type === 'password'){
+                          x.type = "text"
+                          y.style.display = "block";
+                          z.style.display = "none";
+                      }
+                      else{
+                          x.type = "password"
+                          y.style.display = "none";
+                          z.style.display = "block";
+                      }
+                  }
+                      function eyefun1(){
+  
+                          var x1 = document.getElementById("password2")
+                          var y1 = document.getElementById("hide3")
+                          var z1 = document.getElementById("hide4")
+  
+                          if(x1.type === 'password'){
+  
+                              x1.type = "text"
+                              y1.style.display = "block";
+                              z1.style.display = "none";  
+                          }
+                          else{
+  
+                              x1.type = "password"
+                              y1.style.display = "none";
+                              z1.style.display = "block";
+                          }
+  
+                      }
+                  
+              </script> 
+          </form> 
+      </div>
+  </body>
+  </html>
+  
