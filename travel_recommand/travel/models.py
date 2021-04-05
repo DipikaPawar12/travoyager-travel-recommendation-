@@ -108,7 +108,7 @@ class Hotel(models.Model):
     hotel_id=models.AutoField(primary_key=True)
     hotel_name=models.CharField(max_length=200)
     dest_id=models.ForeignKey(Destination,default=1,on_delete=models.SET_DEFAULT)    
-    type_of_room=models.CharField(max_length=20)
+   # type_of_room=models.CharField(max_length=20)
     latitude=models.FloatField()
     longitude=models.FloatField()
     stayCharge_dayPerRoom=models.FloatField()
@@ -116,7 +116,7 @@ class Hotel(models.Model):
     capacity=models.IntegerField()
     service=models.CharField(max_length=200)
     rate_hotel=models.FloatField()
-    image_hotel=models.CharField(max_length=1000)                       #url
+    image_hotel=models.ImageField()                       #url
     type_of_hotel=models.CharField(max_length=200)                      # choice : luxury, first class,star of hotel, frontend side handling
 
     def __str__(self):
