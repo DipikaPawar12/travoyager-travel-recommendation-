@@ -19,4 +19,6 @@ urlpatterns = [
     path('addPlace/addPlaceEntry/<int:pk>/<int:location>', addPlaceEntry, name='addPlaceEntry'),
     path('updatePlace/<int:pk>/<int:counter>', updatePlace, name='updatePlace'),
 
+    path('bookHotel', bookHotel, name='bookHotel'),
+
 ]

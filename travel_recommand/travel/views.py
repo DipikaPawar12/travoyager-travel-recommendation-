@@ -373,3 +373,14 @@ def updatePlace(request, pk, counter):
     iti_obj = Itinerary.objects.get(id=pk).delete()
 
     return HttpResponseRedirect('/addPlace/'+str(counter))
+
+def bookHotel(request):
+    user_obj = User.objects.get(id=userId_glob)
+    user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+
+    hotel_obj = Hotel.objects.filter(dest_id = user_in_obj.dest_id).all()
+    context={
+        'hotel_list':hotel_obj
+    }
+    return render(request, 'bookHotel.html', context)
