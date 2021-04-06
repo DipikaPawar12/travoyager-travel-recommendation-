@@ -377,10 +377,46 @@ def updatePlace(request, pk, counter):
 def bookHotel(request):
     user_obj = User.objects.get(id=userId_glob)
     user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
-
+    date_list=[]
+    delta = user_in_obj.ending_date - user_in_obj.starting_date
+    no_of_day_visit = delta.days+1
+    for day in range(no_of_day_visit):
+        current_date = user_in_obj.starting_date + timedelta(days=day)  
+        date_list.append(current_date)
 
     hotel_obj = Hotel.objects.filter(dest_id = user_in_obj.dest_id).all()
+ 
+    for obj in hotel_obj:
+        book_obj = Hotel_Booking.objects.filter(hotel_id = obj.hotel_id, date_of_booking_hotel__in = date_list).all()
+        c=0
+        tp=0
+        for day in date_list:
+            for room in book_obj:
+                if room.date_of_booking_hotel == day:
+                    c+=room.no_of_room
+            if c>=obj.capacity:
+                tp=1
+                break
+            c=0
+        if tp==1:
+            obj.delete()
+            #dict_hotel.append(obj)
+
     context={
         'hotel_list':hotel_obj
     }
     return render(request, 'bookHotel.html', context)
+
+def bookHotelTable(request, pk):
+    user_obj = User.objects.get(id=userId_glob)
+    user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+    date_list=[]
+    delta = user_in_obj.ending_date - user_in_obj.starting_date
+    no_of_day_visit = delta.days+1
+    for day in range(no_of_day_visit):
+        current_date = user_in_obj.starting_date + timedelta(days=day)  
+        date_list.append(current_date)
+
+    
+    return HttpResponseRedirect('/bookHotel')

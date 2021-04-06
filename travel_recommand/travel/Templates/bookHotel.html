@@ -1,8 +1,18 @@
 
 
 {% for obj in hotel_list %}
-    {{obj.hotel_name}}
-    <br>{{obj.image_hotel.url}}
+    {{obj.hotel_name}}, {{obj.dest_id.dest_name}}
+    <br>
+    size: {{obj.capacity}} persons/room
+    Type: {{obj.type_of_hotel}}
+<br>{{obj.rate_hotel}} stars   Price:
+<br>{{obj.service}}
+
     <img class="box" src="{{obj.image_hotel.url}}" width="100" height="100" /><br />
     <br>
+    
+
+    <button value="Add" class="btn float-right login_btn" id="lg_bt">
+        <a href="bookHotelTable/{{obj.pk}}">BOOK</a>
+    </button><br><hr><br>
 {% endfor %}

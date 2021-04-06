@@ -20,5 +20,6 @@ urlpatterns = [
     path('updatePlace/<int:pk>/<int:counter>', updatePlace, name='updatePlace'),
 
     path('bookHotel', bookHotel, name='bookHotel'),
+    path('bookHotelTable/<int:pk>', bookHotelTable, name='bookHotelTable'),
 
 ]

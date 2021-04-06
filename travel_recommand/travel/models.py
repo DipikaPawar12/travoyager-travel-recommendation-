@@ -114,6 +114,7 @@ class Hotel(models.Model):
     stayCharge_dayPerRoom=models.FloatField()
     mealCharge_perPerson=models.FloatField()
     capacity=models.IntegerField()
+    hotel_capacity = models.IntegerField()
     service=models.CharField(max_length=200)
     rate_hotel=models.FloatField()
     image_hotel=models.ImageField()                       #url
