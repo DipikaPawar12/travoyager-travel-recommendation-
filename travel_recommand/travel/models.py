@@ -124,17 +124,15 @@ class Hotel(models.Model):
         return str(self.hotel_id)
 
 class Hotel_Booking(models.Model):
-    trip_id=models.ForeignKey(User_Input,default=1,on_delete=models.SET_DEFAULT)
+    trip_id=models.ForeignKey(User_Input,default=1,on_delete=models.SET_DEFAULT, unique=True)
     hotel_id=models.ForeignKey(Hotel,default=1,on_delete=models.SET_DEFAULT)
     date_of_booking_hotel=models.DateField()
+    ending_date=models.DateField()
     charge_hotel=models.FloatField()
     no_of_room=models.IntegerField()
 
-    class Meta:
-        unique_together = (("hotel_id", "trip_id"))
-
     def __str__(self):
-        return str(self.trip_id)+' '+str(self.hotel_id)
+        return str(self.id)
 
 
 

@@ -21,5 +21,5 @@ urlpatterns = [
 
     path('bookHotel', bookHotel, name='bookHotel'),
     path('bookHotelTable/<int:pk>', bookHotelTable, name='bookHotelTable'),
-
+    path('alreadyBooked', alreadyBooked, name='alreadyBooked'),
 ]

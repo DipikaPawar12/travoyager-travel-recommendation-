@@ -1,0 +1,14 @@
+<h2>Bookd Hotel for Trip:</h2>
+    {{obj.hotel_id.hotel_name}}, {{obj.hotel_id.dest_id.dest_name}}
+    <br>
+    Capacity: {{obj.hotel_id.capacity}} persons/room
+    Type: {{obj.hotel_id.type_of_hotel}}
+<br>{{obj.hotel_id.rate_hotel}} stars  
+<br>{{obj.hotel_id.service}}
+
+    <img class="box" src="{{obj.hotel_id.image_hotel.url}}" width="100" height="100" /><br />
+    <br>
+    
+    {{obj.date_of_booking_hotel}}-{{obj.ending_date}}: Charges:{{obj.charge_hotel}} Rupees<br>
+    No of rooms:{{obj.no_of_room}}
+    <hr>
