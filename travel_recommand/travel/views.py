@@ -42,6 +42,8 @@ def userRegister(request): #register page
                 user.save()
                 user_obj = User.objects.get(username=username)
                 login(user_obj.id)
+                account = User_Account(user_id=user_obj, account_balance=50000)
+                account.save()
                 return render(request, 'userInput.html') #after successfully submitted User can give response in User Input page
             except Exception as e:
                 print(e)
@@ -70,6 +72,7 @@ def userRegister(request): #register page
     else:
         return render(request, 'userRegister.html')#otherwise diplays SignUp HTML page
     
+
 def userLogin(request):
     logout()
     if request.method == "POST": # If Got response from Login Form
@@ -399,6 +402,25 @@ def updatePlace(request, pk, counter):
     else:
         return HttpResponseRedirect('/userLogin')
 
+
+def mapview(request):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+        today = datetime.today()
+        print(today)
+        itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj, arrival_DnT__gt = today).all()
+
+        context={
+            'iti': itinary_gen
+        }
+        return render(request,'map.html', context)
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+
+
 def bookHotel(request):
     if userId_glob!=-1:
         user_obj = User.objects.get(id=userId_glob)
@@ -412,7 +434,7 @@ def bookHotel(request):
         hotel_obj = Hotel.objects.filter(dest_id = user_in_obj.dest_id).all()
         
         for obj in hotel_obj:
-            book_obj = Hotel_Booking.objects.filter(hotel_id = obj, date_of_booking_hotel = user_in_obj.starting_date, ending_date=user_in_obj.ending_date).all()
+            book_obj = Hotel_Booking.objects.filter(hotel_id = obj, payment='done', date_of_booking_hotel = user_in_obj.starting_date, ending_date=user_in_obj.ending_date).all()
             c=0
             tp=0
         
@@ -448,7 +470,7 @@ def bookHotelTable(request, pk):
         print(hotel.mealCharge_perPerson)
         charges*=no_of_day_visit
         obj = Hotel_Booking(trip_id=user_in_obj, hotel_id = hotel, date_of_booking_hotel = user_in_obj.starting_date, 
-                    ending_date = user_in_obj.ending_date,charge_hotel=charges, no_of_room = no_of_room_needed)
+                    ending_date = user_in_obj.ending_date,charge_hotel=charges, no_of_room = no_of_room_needed, payment='Remain')
         obj.save()
         return HttpResponseRedirect('/alreadyBooked')
     else:
@@ -465,3 +487,67 @@ def alreadyBooked(request):
         return render(request,'alreadyBooked.html', context)
     else:
         return HttpResponseRedirect('/userLogin')
+
+def cancelNorm(request):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+        try:
+            hotel=Hotel_Booking.objects.get(trip_id = user_in_obj, payment="Remain")
+        except:
+            hotel=None
+
+        if hotel!=None:
+            hotel.delete()
+            
+        return HttpResponseRedirect('/bookHotel')
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+def pay(request):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+        try:
+            hotel=Hotel_Booking.objects.get(trip_id = user_in_obj, payment="Remain")
+        except:
+            hotel=None
+
+        if hotel!=None:
+            wallet_obj=User_Account.objects.get(user_id=user_obj)
+            if wallet_obj.account_balance>=hotel.charge_hotel:
+                wallet_obj.account_balance=wallet_obj.account_balance-hotel.charge_hotel
+                wallet_obj.save()
+                hotel.payment='Done'
+                hotel.save()
+                return HttpResponseRedirect('/alreadyBooked')
+            else:
+                error="*You havn't enuff balance in your wallet!!! Do some Credit"
+                context={
+                    'obj': hotel,
+                    'wallet_error':error
+                }
+            return render(request,'alreadyBooked.html', context)   
+        else:
+            return HttpResponseRedirect('/bookHotel')
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+def cancelBooking(request, pk):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        hotel=Hotel_Booking.objects.get(id=pk)
+
+        if hotel!=None:
+            wallet_obj=User_Account.objects.get(user_id=user_obj)
+
+            wallet_obj.account_balance=wallet_obj.account_balance+hotel.charge_hotel
+            wallet_obj.save()
+            
+            hotel.delete()    
+        return HttpResponseRedirect('/bookHotel')
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+        
+

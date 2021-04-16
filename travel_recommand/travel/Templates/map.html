@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Map</title>
+
+    <style type="text/css">
+      /* Set the size of the div element that contains the map */
+      #map {
+        height: 400px;
+        /* The height is 400 pixels */
+        width: 100%;
+        /* The width is the width of the web page */
+      }
+    </style>
+    <script>
+      // Initialize and add the map
+      function initMap() {
+      
+        const uluru = { lat: 26.9239, lng: 75.8267 };
+        
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 10,
+          center: uluru,
+        });
+        // The marker, positioned at Uluru
+        const marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+        });
+      }
+    </script>
+  </head>
+  <body>
+   <iframe src="https://www.google.com.qa/maps/d/u/0/embed?mid=19WwlNwmZju4C-bBnminVpGvoQa6lJJDI" width="640" height="480"></iframe>
+    <h3>My Google Maps Demo</h3>
+    <!--The div element for the map -->
+    <div id="map"></div>
+
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initMap"></script>
+
+    {{iti}}
+  </body>
+</html>
+
+<div id="map" style="width: 550px; height: 450px"></div>
+
+<script type="text/javascript">
+//<![CDATA[
+
+if (GBrowserIsCompatible()) {
+    var openbubble=true;
+    var agent = navigator.userAgent.toLowerCase();
+// For IE We need to Do this
+    if ((agent.indexOf("msie") > -1) && (agent.indexOf("opera") < 1)){
+    var loader = "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(
+        src='gmarker.png', sizingMethod='crop');";
+    icon = '<div  style="height:34px; width:20px; ' +loader+ '" ></div>'
+  }  
+
+  var n=0;
+    function createTLabel(point,html) {
+    var label = new TLabel();
+     label.id = 'Label '+n;
+     label.anchorLatLng = point;
+     label.anchorPoint = 'bottomCenter';
+     label.content = html;
+     label.markerOffset = new GSize(-1,-5);
+     map.addTLabel(label);
+     var obj=document.getElementById(label.id);
+     GEvent.addDomListener(obj, "click", function() {
+            //map.openInfoWindowHtml(point, html, {pixelOffset: new GSize(0,-34)} );
+     });         
+
+     n++;
+  }
+
+  var map = new GMap2(document.getElementById("map"));
+  map.addControl(new GLargeMapControl());
+  map.addControl(new GMapTypeControl());
+  map.setCenter(new GLatLng(43.907787,-79.359741),8);
+  // Creating the HTML to show markers
+  var hContent = '<div style="padding: 0px 0px 13px 0px; background: url(
+      images/pt_bot_ctr_ora.png) no-repeat bottom center;">
+      <div style="text-align: center; background-color: #f2c30c; padding: 2px;
+       font-size: 0.75em; font-weight: bold;" onclick="openInfo(\'hInfo\')">MyInfo
+       </div>';
+  hContent+='<div id="hInfo" style="position: absolute; display: none;">';
+  hContent+='<div style="width: 81px; background-color: #000; padding: 3px;
+       font-size: 0.75em; color: #fff; text-align: left; border: 1px solid #f2c30c;">
+       This is my content</div>';
+  hContent+='</div></div>';
+  createTLabel(new GLatLng(43.65654,-79.90138),hContent);
+
+}
+
+else {
+  alert("Sorry, the Google Maps API is not compatible with this browser");
+}
+function openInfo(d)
+{
+    var obj = document.getElementById(d);
+    if(openbubble==true)
+    {
+        obj.style.display="block";
+        openbubble=false;
+    }
+    else
+    {
+        obj.style.display="none";
+        openbubble=true;
+    }
+}
+//]]>
+</script>

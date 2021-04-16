@@ -130,7 +130,7 @@ class Hotel_Booking(models.Model):
     ending_date=models.DateField()
     charge_hotel=models.FloatField()
     no_of_room=models.IntegerField()
-
+    payment = models.CharField(max_length=6)            # Done/Remain
     def __str__(self):
         return str(self.id)
 

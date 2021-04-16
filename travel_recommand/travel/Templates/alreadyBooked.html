@@ -1,3 +1,4 @@
+<h3>{{wallet_error}}</h3>
 <h2>Bookd Hotel for Trip:</h2>
     {{obj.hotel_id.hotel_name}}, {{obj.hotel_id.dest_id.dest_name}}
     <br>
@@ -11,4 +12,18 @@
     
     {{obj.date_of_booking_hotel}}-{{obj.ending_date}}: Charges:{{obj.charge_hotel}} Rupees<br>
     No of rooms:{{obj.no_of_room}}
+<br><br>
+
+    {% ifequal obj.payment 'Remain' %}
+        <button value="pay" class="btn float-right login_btn" id="lg_bt">
+            <a href="pay">Make Payment</a>
+        </button>
+        <button value="cancelNorm" class="btn float-right login_btn" id="lg_bt">
+            <a href="cancelNorm">Cancel</a>
+        </button>
+    {% else %}
+        <button value="cancelBooking" class="btn float-right login_btn" id="lg_bt">
+            <a href="cancelBooking/{{obj.pk}}">Cancel</a>
+        </button>
+    {% endifequal %}
     <hr>
