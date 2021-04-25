@@ -512,7 +512,7 @@ def bookHotel(request):
 
         obj = Hotel_Booking.objects.filter(trip_id = user_in_obj).all()
         if(len(obj)>0):
-            return HttpResponseRedirect('/alreadyBooked')
+            return HttpResponseRedirect('/alreadyBooked/'+str(user_in_obj.trip_id))
 
 
         hotel_obj = Hotel.objects.filter(dest_id = user_in_obj.dest_id).all()
