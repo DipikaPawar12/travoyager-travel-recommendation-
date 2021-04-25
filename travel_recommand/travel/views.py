@@ -396,8 +396,17 @@ def tempBook(request,pk):
     else:
         return HttpResponseRedirect('/userLogin')
 
-def placeExplore(request, pk):
-    return render(request, 'placeExplore.html')
+def placeExplore(request, pk, location):
+    place_obj = Place.objects.get(place_id=pk)
+    place_img = Place_Image.objects.filter(place_id=place_obj).all()
+    place_review = Place_Review.objects.filter(place_id=place_obj).all()
+    context={
+        'place_obj':place_obj,
+        'place_img':place_img,
+        'place_review':place_review,
+        'location':location
+    }
+    return render(request, 'placeExplore.html', context)
 
 def tempDelete(request, pk):
     iti_obj = Itinerary.objects.get(id=pk).delete()

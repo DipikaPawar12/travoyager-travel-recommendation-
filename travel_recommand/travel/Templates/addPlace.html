@@ -1,6 +1,6 @@
 <h1>{{limit}}</h1>
 {% for obj,img in place_obj %}
-<a href="/placeExplore/{{obj.pk}}">
+<a href="/placeExplore/{{obj.pk}}/{{location}}">
     <img src={{img}}></a>
     Name: {{obj.name_place}}, {{obj.dest_id.dest_name}}<br>
     {{obj.rate_place}} stars<br>

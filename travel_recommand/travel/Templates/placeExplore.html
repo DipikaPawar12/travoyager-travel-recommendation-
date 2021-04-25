@@ -1,1 +1,30 @@
-hi
+Name: {{place_obj.name_place}}, {{place_obj.dest_id.dest_name}}<br>
+    {{place_obj.rate_place}} stars<br>
+    Place Type: {{place_obj.type_of_Place}}<br>
+    Description: {{place_obj.desc_place}}<br>
+    Tour Charges: {{place_obj.extra_charge}}<br>
+
+
+    <hr>
+    <h2>Reviews:</h2>
+    {% for obj in place_review %}
+    
+        User:{{obj.user_id.username}}<br>
+        Revire:{{obj.review_place}}<br>
+        Rating: {{obj.rate_place}}<br>
+        <hr>
+    {% endfor %}
+
+<h2>Images:</h2>
+{% for obj in place_img %}
+
+    <img src={{obj.image_of_place}}>
+{% endfor %}
+<br>
+<button value="Add" class="btn float-right login_btn" id="lg_bt">
+    <a href="/addPlace/addPlaceEntry/{{place_obj.place_id}}/{{location}}">Add</a>
+</button>
+
+<button value="Back" class="btn float-right login_btn" id="lg_bt">
+    <a href="/addPlace/{{place_obj.place_id}}">Back</a>
+</button>
