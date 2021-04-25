@@ -1,3 +1,4 @@
+
 <h3>{{wallet_error}}</h3>
 <h2>Bookd Hotel for Trip:</h2>
     {{obj.hotel_id.hotel_name}}, {{obj.hotel_id.dest_id.dest_name}}
@@ -23,7 +24,8 @@
         </button>
     {% else %}
         <button value="cancelBooking" class="btn float-right login_btn" id="lg_bt">
-            <a href="cancelBooking/{{obj.pk}}">Cancel</a>
+            <a href="/cancelBooking/{{obj.pk}}">Cancel</a>
         </button>
     {% endifequal %}
     <hr>
+

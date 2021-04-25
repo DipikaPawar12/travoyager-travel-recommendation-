@@ -1,0 +1,29 @@
+
+
+<br>
+<br>
+<br>
+
+{% for place, review in common %}
+    Name: {{place.name_place}}<br>
+    {{place.rate_place}} Stars<br>
+    {% ifequal review "done" %}
+
+           You reviewed!!
+    {% else %}
+        <form class="input-icons" method="POST">
+            <input type="number" id="rating" placeholder="Rating"  name="rating" min="0" max="5" required />
+            
+            <div class="review"> 
+            {% csrf_token %}   
+                <input type="text" class="form-control" id="review" placeholder="Write something..." name="review" max="1000" min="5" required />
+            </div>
+            <input type="hidden" id="placeId"  name="placeId" value={{place.place_id}} required />
+            <div class="bt">
+                <button type="submit">Submit Review</button>
+            </div>
+        </form>
+    {% endifequal %}
+    <hr>
+  
+{% endfor %}

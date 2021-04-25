@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import *
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta, date
 from django.db.models import Q
 
 # Create your views here.
@@ -94,24 +94,39 @@ def userLogin(request):
             return render(request, "userLogin.html", {"errors": errors, "username": username})  #Password doesn't match
         else:
             login(user_obj.id)
-            return HttpResponseRedirect('/userInput') #after successfully submitted User can give response in User Input page
-
+            try:
+                user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+            except:
+                user_in_obj=None
+            if user_in_obj==None:
+                return HttpResponseRedirect('/userInput') #after successfully submitted User can give response in User Input page
+            else:
+                return HttpResponseRedirect('/temp') 
     return render(request, 'userLogin.html') #otherwise diplays Log IN HTML page
 
 src_name_glob=""
 desti_name_glob=""
+
 def userInput(request):
     if userId_glob!=-1:
         try:
             dest_available_obj = Destination.objects.all().order_by('dest_name')
         except:
             dest_available_obj = None
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
+        today = date.today()
+
+        for obj in user_in_obj:
+
+            if obj.starting_date < today and obj.status=='Booked':
+                obj.status="completed"
+                obj.save()
 
         if dest_available_obj!=None:
             if request.method == "POST": # If Got response from Login Form
                 src_name = request.POST.get('src_name')
                 dest_name = request.POST.get('dest_name')
-
                 if src_name==dest_name:
                     error="*Please enter differrent values"
                     return render(request, "userInput.html", {"dest_available_obj": dest_available_obj, "error":error})
@@ -121,13 +136,10 @@ def userInput(request):
                     src_name_glob=src_name
                     desti_name_glob=dest_name
                     return HttpResponseRedirect('/split_userInput')
-
-            return render(request, "userInput.html", {"dest_available_obj": dest_available_obj})
-
+            return render(request, "userInput.html", {"dest_available_obj": dest_available_obj, "user_obj": user_in_obj})
         return render(request, 'userInput.html') #after successfully submitted User can give response in User Input page
-    
     else:
-        return render(request, 'userLogin.html')
+        return HttpResponseRedirect('/userLogin')
 
 def split_userInput(request):
     if userId_glob!=-1:
@@ -183,6 +195,43 @@ def split_userInput(request):
         return render(request, 'split_userInput.html', context) #after successfully submitted User can give response in User Input page
     else:
         return render(request, 'userLogin.html')
+
+def review(request, pk):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(trip_id=pk)
+
+        itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+
+        place_obj=[]
+        review_status=[]
+        for obj in itinary_gen:
+            if obj.place_id not in place_obj:
+                place_obj.append(obj.place_id)
+                try:
+                    review_obj = Place_Review.objects.get(user_id=user_obj, place_id=obj.place_id)
+                except:
+                    review_obj = None
+
+                if review_obj==None :
+                    review_status.append("remain")
+                else:
+                    review_status.append('done')
+
+        common = zip(place_obj, review_status)
+
+        if request.method == "POST": # If Got response from Review Form
+            review = request.POST.get('review')
+            rating = request.POST.get('rating')
+            id = request.POST.get('placeId')
+
+            place_objj = Place.objects.get(place_id=(int)(id))
+            rev_obj=Place_Review(user_id=user_obj, place_id=place_objj, review_place=review, rate_place=rating)
+            rev_obj.save()
+            return HttpResponseRedirect('/review/'+(str)(pk))
+        return render(request,'reviewTrip.html',{"common": common})
+    else:
+        return HttpResponseRedirect('/userLogin')
 
 def placeFetch(request):
     if userId_glob!=-1:
@@ -269,6 +318,7 @@ def itinaryShow(curr_slot, itinary_gen, user_in_obj,  next_slot, current_date):
     curr_slot = datetime.combine(current_date, datetime.time(t))
     t = datetime.strptime(next_slot, '%H:%M:%S')
     curr_slot_end = datetime.combine(current_date, datetime.time(t))
+    image_obj = Place_Image.objects.all()
 
     try:
         check = Itinerary.objects.filter(trip_id=user_in_obj, arrival_DnT=curr_slot).all()
@@ -281,12 +331,15 @@ def itinaryShow(curr_slot, itinary_gen, user_in_obj,  next_slot, current_date):
         dictionary['arrival_DnT']= check[0].arrival_DnT
         dictionary['departure_DnT'] = check[0].departure_DnT
         dictionary['place_id'] = check[0].place_id
+        for img in image_obj:
+            if dictionary['place_id'].place_id == img.place_id.place_id:
+                dictionary['img'] = (img.image_of_place)
+                break       
         return (dictionary)
 
     dictionary['place_id'] = None
+    dictionary['img']=None
     return (dictionary)
-
- 
 
 def temp(request):
     if userId_glob!=-1:
@@ -307,16 +360,6 @@ def temp(request):
             current_date += timedelta(days=1)
 
         
-        image_obj = Place_Image.objects.all()
-        img_list=[]
-        for obj in itinary_gen:
-            for img in image_obj:
-            
-                if obj.place_id.place_id == img.place_id.place_id:
-                    img_list.append(img.image_of_place)
-                    break
-        common = zip(itinary_gen, img_list)
-        
         context={
             'itinary_gen': itinary,
             'org_iti': itinary_gen
@@ -324,6 +367,38 @@ def temp(request):
         return render(request,'temp.html', context)
     else:
         return HttpResponseRedirect('/userLogin')
+
+def tempBook(request,pk):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(trip_id=pk)
+
+        delta = user_in_obj.ending_date - user_in_obj.starting_date
+        no_of_day_visit = delta.days+1
+        current_date = user_in_obj.starting_date
+
+        itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
+        itinary = []
+
+        for i in range(no_of_day_visit):
+            itinary.append(itinaryShow('09:30:00', itinary_gen, user_in_obj, '12:30:00', current_date))
+            itinary.append(itinaryShow('14:30:00', itinary_gen, user_in_obj, '17:30:00', current_date))
+            itinary.append(itinaryShow('18:30:00', itinary_gen, user_in_obj, '21:30:00', current_date))
+            current_date += timedelta(days=1)
+
+        context={
+            'itinary_gen': itinary,
+            'org_iti': itinary_gen,
+            'not': 'No',
+            'trip': user_in_obj.trip_id
+        }
+        return render(request,'temp.html', context)
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+def placeExplore(request, pk):
+    return render(request, 'placeExplore.html')
+
 def tempDelete(request, pk):
     iti_obj = Itinerary.objects.get(id=pk).delete()
 
@@ -472,11 +547,23 @@ def bookHotelTable(request, pk):
         obj = Hotel_Booking(trip_id=user_in_obj, hotel_id = hotel, date_of_booking_hotel = user_in_obj.starting_date, 
                     ending_date = user_in_obj.ending_date,charge_hotel=charges, no_of_room = no_of_room_needed, payment='Remain')
         obj.save()
-        return HttpResponseRedirect('/alreadyBooked')
+        return HttpResponseRedirect('/alreadyBookedCon')
     else:
         return HttpResponseRedirect('/userLogin')
 
-def alreadyBooked(request):
+def alreadyBooked(request, trip):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(trip_id = trip)
+        hotel=Hotel_Booking.objects.get(trip_id = user_in_obj)
+        context={
+            'obj': hotel
+        }
+        return render(request,'alreadyBooked.html', context)
+    else:
+        return HttpResponseRedirect('/userLogin')
+
+def alreadyBookedCon(request):
     if userId_glob!=-1:
         user_obj = User.objects.get(id=userId_glob)
         user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
@@ -520,7 +607,10 @@ def pay(request):
                 wallet_obj.save()
                 hotel.payment='Done'
                 hotel.save()
-                return HttpResponseRedirect('/alreadyBooked')
+                user_in_obj.status='Booked'
+                user_in_obj.save()
+
+                return HttpResponseRedirect('/userInput')
             else:
                 error="*You havn't enuff balance in your wallet!!! Do some Credit"
                 context={
@@ -537,17 +627,51 @@ def cancelBooking(request, pk):
     if userId_glob!=-1:
         user_obj = User.objects.get(id=userId_glob)
         hotel=Hotel_Booking.objects.get(id=pk)
-
+        user_in_obj = User_Input.objects.get(trip_id=hotel.trip_id.trip_id)
         if hotel!=None:
             wallet_obj=User_Account.objects.get(user_id=user_obj)
-
             wallet_obj.account_balance=wallet_obj.account_balance+hotel.charge_hotel
             wallet_obj.save()
             
             hotel.delete()    
-        return HttpResponseRedirect('/bookHotel')
+            user_in_obj.status=('ongoing')
+            user_in_obj.save()
+
+        return HttpResponseRedirect('/bookHotelOrNo')
     else:
         return HttpResponseRedirect('/userLogin')
 
+
+def bookHotelOrNo(request):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+
+        obj = Hotel_Booking.objects.filter(trip_id = user_in_obj).all()
+        if(len(obj)>0):
+            return HttpResponseRedirect('/alreadyBooked')
+
+
+        hotel_obj = Hotel.objects.filter(dest_id = user_in_obj.dest_id).all()
+        
+        for obj in hotel_obj:
+            book_obj = Hotel_Booking.objects.filter(hotel_id = obj, payment='done', date_of_booking_hotel = user_in_obj.starting_date, ending_date=user_in_obj.ending_date).all()
+            c=0
+            tp=0
+        
+            for room in book_obj:
+                c+=room.no_of_room
+
+            if c>=obj.hotel_capacity:
+                obj.delete()
+                #dict_hotel.append(obj)
+
+        context={
+            'hotel_list':hotel_obj,
+            'enable': "yes"
+        }
+        return render(request, 'bookHotel.html', context)
+    else:
+        return HttpResponseRedirect('/userLogin')
         
 

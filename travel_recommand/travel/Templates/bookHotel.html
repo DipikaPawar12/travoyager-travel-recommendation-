@@ -1,4 +1,11 @@
+{% ifequal enable "yes" %}
+<button
+  class="btn float-right login_btn" id="lg_bt">
+    <a href="/temp">Go To Main </a>
+</button><br><hr>
 
+
+{% endifequal %}
 
 {% for obj in hotel_list %}
     {{obj.hotel_name}}, {{obj.dest_id.dest_name}}
