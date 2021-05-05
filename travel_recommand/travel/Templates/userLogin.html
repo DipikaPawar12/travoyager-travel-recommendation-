@@ -1,134 +1,185 @@
-
-<html>
+<!DOCTYPE html>
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Travoyager</title>
-    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-      *{
-    margin: 10;
-    padding: 0;
-    font-family: "Times New Roman", Times, serif;
-    box-sizing: border-box;
-}
-body{
-    display: flex;
+  
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+  <link rel="shortcut icon" href="./static/logo-60x50.png" type="image/x-icon">
+  <title>TRAVOYAGER | LOGIN</title>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+      @import url('https://fonts.googleapis.com/css?family=Inter:200,300,400,500,600,700,800,900&display=swap');
+  *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+  }
+  section{
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;  
+  }
+  section .imgBx{
+      position: relative;
+      width: 50%;
+      height: 100%;
+  }
+  section .imgBx::before{
+      content: ' ';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(225deg,#3a383800,#00000000);
+  }
+  section .imgBx img{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+section .contentBx{
+    display:flex;
+    width: 50%;
+    height: 100%;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
-    height: 100vh;
-    background-color: rgb(0, 0, 252,0.8);
-    background-image: url('');
-    background-size: cover;
 }
-.form-box{
-    position: relative;
-    top: -50px;
-    width: 500px;
-    background: rgba(0,0, 0, 0.6);
-    margin: auto;  
+section .contentBx .formBx{
+    width: 50%;
+}
+section .contentBx .formBx h2{
+    color: #000000;
+    font-weight: 600;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    /*border-bottom: 4px solid #ff4584;*/
+    display: inline-block;
+    letter-spacing: 1px;
+}
+section .contentBx .formBx .inputBx{
+    margin-bottom: 10px;
+}
+section .contentBx .formBx .inputBx span{
+    font-size:16px;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #607d8b;
+    font-size:16px;
+    letter-spacing: 1px;
+}
+section .contentBx .formBx .inputBx input{
+    width: 100%;
+    padding: 10px 20px;
+    outline: none;
+    font-weight: 400;
+    border: 1px solid #607d8b;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color:#324047;
+    background: transparent;
+    border-radius: 30px;
+}
+section .contentBx .formBx .inputBx input[type="submit"]{
+    background: #000000;
     color: #fff;
-    box-shadow: 0 0 20px 2px rgba(0 ,0, 0, 0.6);
-}
-form{
-    margin-top: 10px;
-    text-align: center;
-}
-
-input{
-    display:block;
-    width: 350px;
-    height: 40px;
-    margin: auto;
-    border:none;
-    align-items: center;
-    outline:none;
-    padding: 25px 0;
-    font-size: 20px;
-    border-bottom:1px solid white ;
-    background:transparent;
-    color: white;
-
-}
-button{
-    position: relative;
-    width: 350px;
-    height: 40px;
-    font-size: 20px;
-    background-color: black;
+    outline: none;
     border: none;
-    color: white;
-    margin-top: 30px;
-    left: 27px;
-
+    font-weight: 500;
+    cursor: pointer; 
 }
+section .contentBx .formBx .inputBx input[type="submit"]:hover{
+    background: #000000;
+}
+section .contentBx .formBx .remember{
+     margin-bottom: 10px;
+     color: #607d8b;
+     font-weight: 400;
+     font-size: 14px;
+}
+section .contentBx .formBx .inputBx p{
+    color: #607d8b;
+}
+section .contentBx .formBx .inputBx p a{
+    color: #000000;
+}
+.eye{
+    position:relative;
+    float: right;
+    top:-30px;
+    left:-15px;
+} 
 #hide1, #hide3{
     display: none   ;
 } 
-#date{
-    color: white;
-}
- .eye{
-    position:relative;
-    float: right;
-    top:-51px;
-    left:-55px;
-} 
-form h1{
-    margin-bottom: 30px;
-}
-::placeholder{
-    color: rgb(255, 255, 255);
-}
+  </style>
 
-    </style>
 </head>
+
 <body>
     <h2>{{ errors }}</h2> 
-    <div class="form-box">
-        <form class="input-icons" method="POST">
-            <!--{% csrf_token %}-->
-            <h1>Login</h1>
-            <div class="Uname"> 
-              {% csrf_token %}   
-                <input type="text" class="form-control" id="Uname" placeholder="Enter Username" name="username" value="{{username}}" required />
+    <section>
+        <div class="imgBx">
+            <img src="./static/TRAVOYAGER (6).png"> 
+        </div>
+        <div class="contentBx">
+            <div class="formBx">
+                <h2>Login</h2>
+                <form class="input-icons" method="POST">
+                    <!--{% csrf_token %}-->
+                    <div class="inputBx">
+                        <span>Username</span>
+                        {% csrf_token %}   
+                        <input type="text" class="form-control" autocomplete="off" id="Uname" placeholder="" name="username" value="{{username}}" required />
+                    </div>
+                    <div class="inputBx">
+                        <span>Password</span>
+                        {% csrf_token %}
+                        <input type="password" id="password1" class="form-control" autocomplete="off" placeholder="" name="password" required />
+                        <span class="eye" id="pe" onclick="eyefun()">
+                        <i id="hide1" class="fa fa-eye"></i>
+                        <i id="hide2" class="fa fa-eye-slash"></i>
+                        </span>
+                    </div>
+                    <!--<div class="remember">
+                        <label><input type="checkbox" name="">Remember me</label>
+                    </div>-->
+                    <div class="inputBx">
+                        <input type="submit" value="Sign in" name="">
+                    </div>
+                    <div class="inputBx">
+                        <p>Don't have an account? <a href="/userRegister">Sign up</a></p>  
+                    </div>
+                    <script>
+                        function eyefun(){
+                            var x = document.getElementById("password1")
+                            var y = document.getElementById("hide1")
+                            var z = document.getElementById("hide2")
+        
+                            if(x.type === 'password'){
+                                x.type = "text"
+                                y.style.display = "block";
+                                z.style.display = "none";
+                            }
+                            else{
+                                x.type = "password"
+                                y.style.display = "none";
+                                z.style.display = "block";
+                            }
+                        }
+                       </script>
+                </form>
             </div>
-	          <div class="password-container">
-              {% csrf_token %}
-            <input type="password" id="password1" class="form-control" placeholder="Enter Password" name="password" required />
-            <span class="eye" id="pe" onclick="eyefun()">
-                <i id="hide1" class="fa fa-eye"></i>
-                <i id="hide2" class="fa fa-eye-slash"></i>
-            </span>
-           </div>
-           
-          <div class="bt">
-                <button type="submit">Login</button>
-            </div>
-            <br>
-            <div class="login" >
-                <p>New to website? <a href="/userRegister">Sign Up</a></p>
-            </div>
-             <script>
-                function eyefun(){
-                    var x = document.getElementById("password1")
-                    var y = document.getElementById("hide1")
-                    var z = document.getElementById("hide2")
-
-                    if(x.type === 'password'){
-                        x.type = "text"
-                        y.style.display = "block";
-                        z.style.display = "none";
-                    }
-                    else{
-                        x.type = "password"
-                        y.style.display = "none";
-                        z.style.display = "block";
-                    }
-                }
-               </script>
-	</form> 
-    </div>
+        </div>
+    </section>
 </body>
+
+
 </html>

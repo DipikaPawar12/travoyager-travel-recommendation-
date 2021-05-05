@@ -44,7 +44,8 @@ def userRegister(request): #register page
                 login(user_obj.id)
                 account = User_Account(user_id=user_obj, account_balance=50000)
                 account.save()
-                return render(request, 'userInput.html') #after successfully submitted User can give response in User Input page
+               # return HttpResponseRedirect('/userInput') #after successfully submitted User can give response in User Input page
+                return render(request, 'home.html') 
             except Exception as e:
                 print(e)
                 errors = "*We found the same username or email id in our data. These should be unique. Try some new" #throw Exception if same data is found
@@ -94,19 +95,33 @@ def userLogin(request):
             return render(request, "userLogin.html", {"errors": errors, "username": username})  #Password doesn't match
         else:
             login(user_obj.id)
-            try:
-                user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
-            except:
-                user_in_obj=None
-            if user_in_obj==None:
-                return HttpResponseRedirect('/userInput') #after successfully submitted User can give response in User Input page
-            else:
-                return HttpResponseRedirect('/temp') 
+            return render(request, 'home.html') 
+            
     return render(request, 'userLogin.html') #otherwise diplays Log IN HTML page
 
 src_name_glob=""
 desti_name_glob=""
 
+def home(request):
+    return render(request, 'home.html')
+
+def aboutus(request):
+    return render(request, 'aboutus.html')
+
+def tripHistory(request):
+ if userId_glob!=-1:
+    user_obj = User.objects.get(id=userId_glob)
+    try:
+        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
+    except:
+        user_in_obj = None
+    error = ""
+    if user_in_obj == None or len(user_in_obj) == 0:
+        error = "No Trip History"
+    return render(request, "tripHistory.html", {"user_obj": user_in_obj, "error":error})
+ else:
+    return HttpResponseRedirect('/userLogin')
+   
 def userInput(request):
     if userId_glob!=-1:
         try:
@@ -114,6 +129,12 @@ def userInput(request):
         except:
             dest_available_obj = None
         user_obj = User.objects.get(id=userId_glob)
+        try:
+            user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
+        except:
+            user_in_obj=None
+        if user_in_obj != None:
+            return HttpResponseRedirect('/temp') 
         user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
         today = date.today()
 
@@ -619,7 +640,7 @@ def pay(request):
                 user_in_obj.status='Booked'
                 user_in_obj.save()
 
-                return HttpResponseRedirect('/userInput')
+                return HttpResponseRedirect('/home')
             else:
                 error="*You havn't enuff balance in your wallet!!! Do some Credit"
                 context={

@@ -1,0 +1,23 @@
+
+<h2>History Section: </h2>
+<h2>{{error}}</h2>
+{% for obj in user_obj %}
+
+Between: {{obj.starting_date}}-{{obj.ending_date}}
+<br> At {{obj.dest_id.dest_name}}
+<br>By: {{obj.trans_to_choose}}
+<br> Number of Adults: {{obj.no_of_adult}}
+<br> Number of child: {{obj.no_of_child}}
+{% ifequal obj.status "Booked" %}<br>
+<button value="explore" class="btn float-right login_btn" id="lg_bt">
+  <a href="temp/{{obj.pk}}">Explore</a>
+</button>
+{% endifequal %}
+
+{% ifequal obj.status "completed" %}<br>
+<button value="review" class="btn float-right login_btn" id="lg_bt">
+  <a href="review/{{obj.pk}}">Review Trip</a>
+</button>
+{% endifequal %}
+<hr>
+{% endfor %}

@@ -9,8 +9,11 @@ urlpatterns = [
     path('userRegister', userRegister, name='userRegister'),
     path('userLogin', userLogin, name='userLogin'),
 
+    path('home', home, name='home'),
+    path('aboutus', aboutus, name='aboutus'),
     path('userInput', userInput, name='userInput'),
     path('split_userInput', split_userInput, name='split_userInput'),
+    path('tripHistory', tripHistory, name='tripHistory'),
     path('review/<int:pk>', review, name='review'),
 
     path('placeFetch', placeFetch, name='placeFetch'),
