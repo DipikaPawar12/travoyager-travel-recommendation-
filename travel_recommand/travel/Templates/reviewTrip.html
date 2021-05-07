@@ -150,7 +150,7 @@ section .contentBx .formBx .inputBx p a{
                         <input type="text" class="form-control" id="review" placeholder="Write something..." name="review" max="1000" min="5" required />
                     </div>
                     <div class="inputBx">
-                        <span>Password</span>
+                        <!--<span>Password</span>-->
                         {% csrf_token %}
                         <input type="hidden" id="placeId"  name="placeId" value={{place.place_id}} required />
                     </div>
@@ -168,10 +168,13 @@ section .contentBx .formBx .inputBx p a{
             </div>
         </div>
         {% endfor %}
-        <div class="imgBx">
+        <!--<div class="imgBx">
             <img src="./static/TRAVOYAGER (6).png"> 
-        </div>
+        </div>-->
     </section>
+    <div class="inputBx">
+        <p>Complete Review? <a href="/tripHistory">Go Back</a></p>  
+    </div>
 </body>
 
 

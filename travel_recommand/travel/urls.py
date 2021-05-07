@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('home', home, name='home'),
     path('aboutus', aboutus, name='aboutus'),
+    path('profile', profile, name='profile'),
     path('userInput', userInput, name='userInput'),
     path('split_userInput', split_userInput, name='split_userInput'),
     path('tripHistory', tripHistory, name='tripHistory'),

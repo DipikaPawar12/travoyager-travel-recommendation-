@@ -17,6 +17,7 @@ def logout():
 def index(request):
     return render(request, 'index.html')
 
+
 def userRegister(request): #register page
     logout()
     if request.method == 'POST': #if tap on submit button
@@ -108,6 +109,15 @@ def home(request):
 def aboutus(request):
     return render(request, 'aboutus.html')
 
+def profile(request):
+    if userId_glob!=-1:
+        user_obj = User.objects.get(id=userId_glob)
+        acc_obj = User_Account.objects.get(user_id=user_obj)
+        return render(request, 'profile.html',context={"user_obj" : user_obj, "acc_obj" : acc_obj})
+    else:
+        return HttpResponseRedirect('/userLogin')
+   
+
 def tripHistory(request):
  if userId_glob!=-1:
     user_obj = User.objects.get(id=userId_glob)
@@ -128,21 +138,37 @@ def userInput(request):
             dest_available_obj = Destination.objects.all().order_by('dest_name')
         except:
             dest_available_obj = None
+
         user_obj = User.objects.get(id=userId_glob)
+
+        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
+
+        today = date.today()
+        print(user_in_obj)
+        for obj in user_in_obj:
+            if obj.starting_date < today and obj.status=='Booked':
+                print(obj.status)
+                obj.status="completed"
+                obj.save()
+            elif obj.starting_date < today:
+                iti_onj = Itinerary.objects.filter(trip_id=obj).all()
+                for obj1 in iti_onj:
+                    obj1.delete()
+                try: 
+                    hotel_obj = Hotel_Booking.objects.get(trip_id=obj)
+                    hotel_obj.delete()
+                except:
+                    pass
+                obj.delete()
+        
         try:
             user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
         except:
             user_in_obj=None
+
         if user_in_obj != None:
             return HttpResponseRedirect('/temp') 
-        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
-        today = date.today()
 
-        for obj in user_in_obj:
-
-            if obj.starting_date < today and obj.status=='Booked':
-                obj.status="completed"
-                obj.save()
 
         if dest_available_obj!=None:
             if request.method == "POST": # If Got response from Login Form
@@ -164,7 +190,7 @@ def userInput(request):
 
 def split_userInput(request):
     if userId_glob!=-1:
-        today = datetime.today().strftime('%Y-%m-%d')
+        today = (datetime.today()+timedelta(days=1)).strftime('%Y-%m-%d')
         context={
             'date': today
         }
@@ -215,7 +241,7 @@ def split_userInput(request):
 
         return render(request, 'split_userInput.html', context) #after successfully submitted User can give response in User Input page
     else:
-        return render(request, 'userLogin.html')
+        return HttpResponseRedirect('/userLogin')
 
 def review(request, pk):
     if userId_glob!=-1:
@@ -247,19 +273,23 @@ def review(request, pk):
             id = request.POST.get('placeId')
 
             place_objj = Place.objects.get(place_id=(int)(id))
-            rev_obj=Place_Review(user_id=user_obj, place_id=place_objj, review_place=review, rate_place=rating)
+            rate=place_objj.rate_place
+            place_objj.rate_place=((float)(rating)+rate)/2
+            
+            rev_obj=Place_Review(user_id=user_obj, place_id=place_objj, review_place=review, rate_place=((float)(rating)+rate)/2)
             rev_obj.save()
+            place_objj.save()
             return HttpResponseRedirect('/review/'+(str)(pk))
         return render(request,'reviewTrip.html',{"common": common})
     else:
         return HttpResponseRedirect('/userLogin')
 
 def placeFetch(request):
+    #print(userId_glob)
     if userId_glob!=-1:
         try:
             user_obj = User.objects.get(id=userId_glob)
-            user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
-            
+            user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)   
         except:
             user_in_obj=None
         
@@ -328,7 +358,7 @@ def placeFetch(request):
             return HttpResponseRedirect('/temp')
 
         else:
-            return HttpResponseRedirect('/userLogin')
+            return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/userLogin')
 
@@ -400,7 +430,7 @@ def tempBook(request,pk):
 
         itinary_gen = Itinerary.objects.filter(trip_id=user_in_obj).all()
         itinary = []
-
+        print(itinary)
         for i in range(no_of_day_visit):
             itinary.append(itinaryShow('09:30:00', itinary_gen, user_in_obj, '12:30:00', current_date))
             itinary.append(itinaryShow('14:30:00', itinary_gen, user_in_obj, '17:30:00', current_date))

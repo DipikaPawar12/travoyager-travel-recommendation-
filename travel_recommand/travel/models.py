@@ -89,7 +89,13 @@ class User_Input(models.Model):
     status = models.CharField(max_length=20)                    #completed/ongoing/booked
     def __str__(self):
         return str(self.trip_id)
-
+        
+class Admin(models.Model):
+    username = models.CharField(max_length=200,unique=True)
+    password = models.CharField(max_length=15)
+    
+    def __str__(self):
+        return str(self.id)
 
 class Itinerary(models.Model):
     trip_id=models.ForeignKey(User_Input,default=1,on_delete=models.SET_DEFAULT)
