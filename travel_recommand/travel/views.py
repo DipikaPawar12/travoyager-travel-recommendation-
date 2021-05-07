@@ -17,6 +17,7 @@ def logout():
 def index(request):
     return render(request, 'index.html')
 
+
 def userRegister(request): #register page
     logout()
     if request.method == 'POST': #if tap on submit button
@@ -128,21 +129,36 @@ def userInput(request):
             dest_available_obj = Destination.objects.all().order_by('dest_name')
         except:
             dest_available_obj = None
+
         user_obj = User.objects.get(id=userId_glob)
+
+        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
+
+        today = date.today()
+
+        for obj in user_in_obj:
+            if obj.starting_date < today and obj.status=='Booked':
+                obj.status="completed"
+                obj.save()
+            elif obj.starting_date < today:
+                iti_onj = Itinerary.objects.filter(trip_id=obj).all()
+                for obj1 in iti_onj:
+                    obj1.delete()
+                try: 
+                    hotel_obj = Hotel_Booking.objects.get(trip_id=obj)
+                    hotel_obj.delete()
+                except:
+                    pass
+                obj.delete()
+        
         try:
             user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
         except:
             user_in_obj=None
+
         if user_in_obj != None:
             return HttpResponseRedirect('/temp') 
-        user_in_obj = User_Input.objects.filter(user_id=user_obj).all()
-        today = date.today()
 
-        for obj in user_in_obj:
-
-            if obj.starting_date < today and obj.status=='Booked':
-                obj.status="completed"
-                obj.save()
 
         if dest_available_obj!=None:
             if request.method == "POST": # If Got response from Login Form
@@ -255,11 +271,11 @@ def review(request, pk):
         return HttpResponseRedirect('/userLogin')
 
 def placeFetch(request):
+    #print(userId_glob)
     if userId_glob!=-1:
         try:
             user_obj = User.objects.get(id=userId_glob)
-            user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)
-            
+            user_in_obj = User_Input.objects.get(Q(status='ongoing') ,user_id=user_obj)   
         except:
             user_in_obj=None
         
@@ -328,7 +344,7 @@ def placeFetch(request):
             return HttpResponseRedirect('/temp')
 
         else:
-            return HttpResponseRedirect('/userLogin')
+            return HttpResponseRedirect('/home')
     else:
         return HttpResponseRedirect('/userLogin')
 
