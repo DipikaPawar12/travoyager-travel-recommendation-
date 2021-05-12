@@ -42,7 +42,7 @@ This System helps to track the number of visitors who come to your place.
 - Clone this repository
 
   ```
-  git clone https://github.com/parth-27/Visitor-Management-System.git
+  git clone https://github.com/DipikaPawar12/travoyager-travel-recommendation-
   ```
 
 - If you are not going to use Sqlite3 Database, change the DATABASES variable in settings.py file accordingly. You can Refer to [Django documentation](https://docs.djangoproject.com/en/3.0/ref/databases/)
@@ -70,5 +70,4 @@ Licensed under the [MIT License](LICENSE).
 ## Contributors
 
 ---
-
-| [Parth Patel](https://github.com/parth-27)                                                                                                            | [Dipika Pawar](https://github.com/DipikaPawar12)                                                                                                            |
+[Dipika Pawar](https://github.com/DipikaPawar12)|
