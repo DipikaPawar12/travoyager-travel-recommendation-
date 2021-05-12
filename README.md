@@ -70,4 +70,4 @@ Licensed under the [MIT License](LICENSE).
 ## Contributors
 
 ---
-[Dipika Pawar](https://github.com/DipikaPawar12)| [Aanshi Patwari](https://github.com/aanshi18)| [Mansi Dobariya](https://github.com/mansi-ctrl)| [Nirva Sangani](https://github.com/nirvasangani)| [Meet Pedhadiya](https://github.com/MeeTP1310)| [Miracle Rindani](https://github.com/mrindani)| [Frency Chauhan](https://github.com/Frency-Chauhan)| Bhumiti Gohel(https://github.com/bhumiti28)
+[Dipika Pawar](https://github.com/DipikaPawar12)| [Aanshi Patwari](https://github.com/aanshi18)| [Mansi Dobariya](https://github.com/mansi-ctrl)| [Nirva Sangani](https://github.com/nirvasangani)| [Meet Pedhadiya](https://github.com/MeeTP1310)| [Miracle Rindani](https://github.com/mrindani)| [Frency Chauhan](https://github.com/Frency-Chauhan)| [Bhumiti Gohel](https://github.com/bhumiti28)
