@@ -22,9 +22,8 @@
 ## Introduction
 
 ---
+Hodophiles are the people who love to travel to new places, get to know different people and live everlasting experiences. These people often travel to random different places as their hobby or their routine. Most of the people in our country love to travel to multiple places at a time either for rest and relaxation purposes or tourist places. While people love travelling, planning for a trip can be a tedious task and one has to plan for the destination, mode of travel, hotel accommodation, what places to visit, how many days to spend etc. all in a decided budget. People may require to flip through numerous pages of brochures of travel agencies looking for the perfect plan for their trip. Many times the travel agencies packages seem costly to many people due to which they change their plans of travelling and decide to go on their own. Sometimes travelling on one’s own self can be a difficult task for finding hotels, restaurants, places to visit etc. We aim to create our own one-stop solution to all the travel arrangement problems.
 
-Vistior Management System, also known as <strong>VMS</strong>, is a System to guide visitors who are visiting the college.
-This System helps to track the number of visitors who come to your place.
 
 ## Technology Stack
 
