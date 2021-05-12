@@ -64,6 +64,16 @@ section .contentBx .formBx h2{
     display: inline-block;
     letter-spacing: 1px;
 }
+section .contentBx .formBx h3{
+    color: #202020;
+    font-weight: 600;
+    font-size: 1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    /*border-bottom: 4px solid #ff4584;*/
+    display: inline-block;
+    letter-spacing: 1px;
+}
 section .contentBx .formBx .inputBx{
     margin-bottom: 10px;
 }
@@ -125,14 +135,14 @@ section .contentBx .formBx .inputBx p a{
 </head>
 
 <body>
-    <h2>{{ errors }}</h2> 
     <section>
         <div class="imgBx">
             <img src="./static/TRAVOYAGER (6).png"> 
         </div>
         <div class="contentBx">
             <div class="formBx">
-                <h2>Sign Up</h2>
+                <h2>Sign Up</h2><br>
+                <h3>{{ errors }}</h3>  
                 <form class="input-icons" method="POST" enctype="multipart/form-data">
                     <!--{% csrf_token %}-->
                     <div class="inputBx">
@@ -185,7 +195,7 @@ section .contentBx .formBx .inputBx p a{
                         <input type="submit" value="Sign Up" name="">
                     </div>
                     <div class="inputBx">
-                        <p>Have an account? <a href="/userLogin">Login</a></p>  
+                        <p>Have an account? <a href="/userLogin">Sign in</a></p>  
                     </div>
                     <script>
                         function eyefun(){

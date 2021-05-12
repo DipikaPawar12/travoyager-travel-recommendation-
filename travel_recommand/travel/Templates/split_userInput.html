@@ -64,6 +64,16 @@ section .contentBx .formBx h2{
     display: inline-block;
     letter-spacing: 1px;
 }
+section .contentBx .formBx h3{
+    color: #202020;
+    font-weight: 600;
+    font-size: 1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    /*border-bottom: 4px solid #ff4584;*/
+    display: inline-block;
+    letter-spacing: 1px;
+}
 section .contentBx .formBx .inputBx{
     margin-bottom: 10px;
 }
@@ -138,12 +148,11 @@ section .contentBx .formBx .inputBx p a{
 </head>
 
 <body>
-    <h2>{{ errors }}</h2> 
     <section>
-       
         <div class="contentBx">
             <div class="formBx">
-                <h2>Enter Other Trip Details</h2>
+                <h2>Enter Other Trip Details</h2><br>
+                <h3>{{ errors }}</h3>  
                 <form class="input-icons" method="POST">
                     <!--{% csrf_token %}-->
                     <div class="inputBx">
@@ -190,7 +199,7 @@ section .contentBx .formBx .inputBx p a{
                     </div>
                     <div class="remember" >
                         <label><input type="checkbox" name="beach">Beach</label>
-                        <label><input type="checkbox" name="shopping">Shopping</label>
+                        <label><input type="checkbox" name="shopping" checked>Shopping</label>
                         <label><input type="checkbox" name="historial">Historical</label>
                         <label><input type="checkbox" name="tracking">Tracking</label>
                         <label><input type="checkbox" name="religious">Religious</label>   

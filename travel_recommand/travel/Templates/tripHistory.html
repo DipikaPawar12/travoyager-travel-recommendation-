@@ -99,6 +99,8 @@ body{font-family: Inter;}blockquote{border-color: #000000;}div[submit-success] >
 
 <h2>{{error}}</h2>
 {% for obj in user_obj %}
+{% ifequal obj.status "ongoing" %}
+{% else %}
 <section class="mbr-section 01 cid-swxlobg0qT" id="content1-2x">
      <div class="container">
         <div class="mbr-row mbr-jc-c">
@@ -145,13 +147,25 @@ body{font-family: Inter;}blockquote{border-color: #000000;}div[submit-success] >
         </div>
     </div>
 </section>
+{% endifequal %}
 {% endfor %}
+
+<section class="mbr-section 04 cid-swBsID8QjT" id="content5-3g">
+    <div class="container">
+        <div class="mbr-row mbr-jc-c">
+            <div class="mbr-section-btn mbr-col-md-12 mbr-col-sm-12 mbr-col-lg-8 align-center">
+              <a class="btn btn-primary display-4" href="/home">Back</a>
+              
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="footer1 cid-swxj1AMML1" id="footer1-2v">
     <div class="container">
         <div class="align-center mbr-p-1">
             <p class="mbr-text mbr-white mbr-fonts-style display-4">
-                © Software Engineering Project(CSE300) - Team 11<br></p>
+                © Software Engineering - Team TRAVOYAGER<br></p>
         </div>
     </div>
 </section>

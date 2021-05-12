@@ -46,7 +46,7 @@ def userRegister(request): #register page
                 account = User_Account(user_id=user_obj, account_balance=50000)
                 account.save()
                # return HttpResponseRedirect('/userInput') #after successfully submitted User can give response in User Input page
-                return render(request, 'home.html') 
+                return HttpResponseRedirect('/home')
             except Exception as e:
                 print(e)
                 errors = "*We found the same username or email id in our data. These should be unique. Try some new" #throw Exception if same data is found
@@ -96,7 +96,7 @@ def userLogin(request):
             return render(request, "userLogin.html", {"errors": errors, "username": username})  #Password doesn't match
         else:
             login(user_obj.id)
-            return render(request, 'home.html') 
+            return HttpResponseRedirect('/home')
             
     return render(request, 'userLogin.html') #otherwise diplays Log IN HTML page
 
@@ -108,6 +108,9 @@ def home(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html')
+
+def aboutteam(request):
+    return render(request, 'aboutteam.html')
 
 def profile(request):
     if userId_glob!=-1:
@@ -150,7 +153,7 @@ def userInput(request):
                 print(obj.status)
                 obj.status="completed"
                 obj.save()
-            elif obj.starting_date < today:
+            elif obj.starting_date < today and obj.status=='ongoing':
                 iti_onj = Itinerary.objects.filter(trip_id=obj).all()
                 for obj1 in iti_onj:
                     obj1.delete()
