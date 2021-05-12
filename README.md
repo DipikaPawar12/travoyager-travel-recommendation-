@@ -7,7 +7,7 @@
 <img alt="PyPI - Python Version" src="https://img.shields.io/badge/python%20vesion-3.7.4-green"> <img alt="PyPI - Django Version" src="https://img.shields.io/badge/django%20version-3.0.6-blue">
 
 <p>
-<img src = "main.png">
+<img src = "main.PNG">
 </p>
 
 <h1>Table of Content</h1>
