@@ -64,6 +64,16 @@ section .contentBx .formBx h2{
     display: inline-block;
     letter-spacing: 1px;
 }
+section .contentBx .formBx h3{
+    color: #202020;
+    font-weight: 600;
+    font-size: 1em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    /*border-bottom: 4px solid #ff4584;*/
+    display: inline-block;
+    letter-spacing: 1px;
+}
 section .contentBx .formBx .inputBx{
     margin-bottom: 10px;
 }
@@ -124,14 +134,15 @@ section .contentBx .formBx .inputBx p a{
 </head>
 
 <body>
-    <h2>{{ errors }}</h2> 
+    
     <section>
         <div class="imgBx">
             <img src="./static/TRAVOYAGER (6).png"> 
         </div>
         <div class="contentBx">
             <div class="formBx">
-                <h2>Login</h2>
+                <h2>Sign in</h2><br>
+                <h3>{{ errors }}</h3> 
                 <form class="input-icons" method="POST">
                     <!--{% csrf_token %}-->
                     <div class="inputBx">

@@ -144,7 +144,18 @@ a,a:hover{color: #000000;}
   
 </head>
 <body><div id="top-page"></div>                                         <amp-animation id="showScrollToTopAnim" layout="nodisplay">                                             <script type="application/json">                                             {                                                 "duration": "200ms",                                                 "fill": "both",                                                 "iterations": "1",                                                 "direction": "alternate",                                                 "animations": [                                                     {                                                         "selector": "#scrollToTopButton",                                                         "keyframes": [                                                             { "opacity": "0.4", "visibility": "visible" }                                                         ]                                                     }                                                 ]                                             }                                             </script>                                         </amp-animation>                                         <amp-animation id="hideScrollToTopAnim" layout="nodisplay">                                             <script type="application/json">                                             {                                                 "duration": "200ms",                                                 "fill": "both",                                                 "iterations": "1",                                                 "direction": "alternate",                                                 "animations": [                                                     {                                                         "selector": "#scrollToTopButton",                                                         "keyframes": [                                                             { "opacity": "0", "visibility": "hidden" }                                                         ]                                                     }                                                 ]                                             }                                             </script>                                         </amp-animation>                                         <div id="scrollToTopMarker">                                             <amp-position-observer on="enter:hideScrollToTopAnim.start; exit:showScrollToTopAnim.start" layout="nodisplay">                                             </amp-position-observer>                                         </div><amp-sidebar id="sidebar" class="cid-stIvIbTPYj" layout="nodisplay" side="right">
+        <div class="builder-sidebar" id="builder-sidebar">
+            <button on="tap:sidebar.close" class="close-sidebar">
+                <span></span>
+                <span></span>
+            </button>
         
+            
+            <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="/aboutteam">
+                        About Us</a></li></ul>
+            
+          
+      </div>
     </amp-sidebar>
   
   <section class="menu horizontal-menu cid-stIvIbTPYj" id="menu2-0">
@@ -167,9 +178,20 @@ a,a:hover{color: #000000;}
               </amp-img>
           </span>
           <p class="brand-name mbr-fonts-style mbr-bold display-5"><em>TRAVOYAGER</em></p></div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            
+            <ul class="navbar-nav nav-dropdown" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-black display-4" href="/aboutteam">
+                        About Us</a></li></ul>
+            
+            
+      </div>
       
-      
-      
+      <button on="tap:sidebar.toggle" class="ampstart-btn hamburger sticky-but">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
         </div>
     </nav>
 
@@ -197,7 +219,7 @@ a,a:hover{color: #000000;}
     <div class="container">
         <div class="align-center mbr-p-1">
             <p class="mbr-text mbr-white mbr-fonts-style display-4">
-                © Software Engineering Project(CSE300) - Team 11<br></p>
+                © Software Engineering - Team TRAVOYAGER<br></p>
         </div>
     </div>
 </section>

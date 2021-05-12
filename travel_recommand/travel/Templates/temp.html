@@ -101,7 +101,7 @@ section .inputBx p a{
 
 </section>
 
-<section class="mbr-section 03 cid-sv9374H2BC" id="content19-12">
+<!--<section class="mbr-section 03 cid-sv9374H2BC" id="content19-12">
     <div class="container">
         <div class="mbr-row mbr-jc-c">
             <div class="mbr-col-sm-12 mbr-col-md-10">
@@ -109,6 +109,17 @@ section .inputBx p a{
             </div>
         </div>
     </div>
+</section>-->
+<section class="mbr-section 01 cid-swxdeJQvqo" id="content1-2s">
+    <div class="container">
+       <div class="mbr-row mbr-jc-c">
+           <div class="mbr-col-sm-12 mbr-col-md-10">
+               <h2 class="mbr-section-title align-center mbr-fonts-style mbr-bold display-1">Your Trip Itinerary</h2>
+               
+               
+           </div>
+       </div>
+   </div>
 </section>
 
 
@@ -148,8 +159,7 @@ section .inputBx p a{
                 {% for item in org_iti %}
       
                    {% if  item.trip_id == obj.trip_id and  item.arrival_DnT == obj.arrival_DnT %}
-                   {% ifequal not "No" %}
-                   {% else %}
+                   
                     <div class="card-img">
                         <amp-img src="{{obj.img}}" layout="responsive" width="452.51250000000005" height="301.675" alt="Mobirise" class="mobirise-loader">
                             <div placeholder="" class="placeholder">
@@ -169,12 +179,14 @@ section .inputBx p a{
                          Description : {{obj.place_id.desc_place}}<br>
                          Ratings : {{obj.place_id.rate_place}} Stars<br>
                         </p>
+                        {% ifequal not "No" %}
+                        {% else %}
                         <div class="mbr-section-btn align-left">
                             <a class="btn btn-sm btn-black-outline display-4" href="updatePlace/{{item.pk}}/{{forloop.counter}}">Update</a>
                             <a class="btn btn-sm btn-black-outline display-4" href="tempDelete/{{item.pk}}">Delete</a>
                         </div>
+                        {% endifequal %}
                     </div>
-                    {% endifequal %}
                     {% endif %}
             
                 {% endfor %} 
@@ -211,7 +223,7 @@ section .inputBx p a{
     <div class="container">
         <div class="align-center mbr-p-1">
             <p class="mbr-text mbr-white mbr-fonts-style display-4">
-                © Software Engineering Project(CSE300) - Team 11<br></p>
+                © Software Engineering - Team TRAVOYAGER<br></p>
         </div>
     </div>
 </section>
