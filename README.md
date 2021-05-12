@@ -4,10 +4,10 @@
 
 ---
 
-<img alt="PyPI - Python Version" src="https://img.shields.io/badge/python%20vesion-3.8.2-green"> <img alt="PyPI - Django Version" src="https://img.shields.io/badge/django%20version-3.0.6-blue">
+<img alt="PyPI - Python Version" src="https://img.shields.io/badge/python%20vesion-3.7.4-green"> <img alt="PyPI - Django Version" src="https://img.shields.io/badge/django%20version-3.0.6-blue">
 
 <p>
-<img src = "VMS.png">
+<img src = "main.png">
 </p>
 
 <h1>Table of Content</h1>
@@ -61,8 +61,7 @@ Hodophiles are the people who love to travel to new places, get to know differen
   ```
   python3 manage.py runserver
   ```
-
-- Name and Password both for the SuperAdmin of the website is <strong>superadmin</strong>
+- All the necessary document are uploaded in the [folder](https://github.com/DipikaPawar12/travoyager-travel-recommendation-/tree/main/reports) for developing the software
 
 Licensed under the [MIT License](LICENSE).
 
